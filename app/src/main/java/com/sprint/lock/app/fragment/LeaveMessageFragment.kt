@@ -11,24 +11,15 @@ import com.blankj.utilcode.util.PermissionUtils
 import com.springs.common.base.BaseFragment
 import com.springs.common.common.LiveDataBusX
 import com.springs.common.dialog.PermissionDialog
-import com.springs.common.ext.showTopToast
-import com.springs.common.widgets.AppData
-import com.springs.common.widgets.FastClickUtils
 import com.springs.common.widgets.ScheduleTimeUtils
 import com.sprint.lock.app.R
 import com.sprint.lock.app.databinding.EmptyLayoutBinding
 import com.sprint.lock.app.databinding.FragmentLeaveInfoBinding
-import com.sprint.lock.app.dialog.AlsoUpdateDialog
 import com.sprint.lock.app.dialog.LeaveMessageDialog
 import com.sprint.lock.app.radio.MainContract
 import com.sprint.lock.app.radio.MainPresenter
 import com.sprint.lock.app.radio.RecordAudioButton
 import com.sprint.lock.app.radio.VideoAdapter
-import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
 import java.util.Collections
@@ -69,12 +60,12 @@ class LeaveMessageFragment : BaseFragment<FragmentLeaveInfoBinding>(), MainContr
         })
 
         binding.rvMsg.layoutManager = layoutManager
-        mAdapter.setOnItemChildClickListener { _, view, position ->
+        mAdapter.setOnItemChildClickListener { adapter, view, position ->
             if (R.id.iv_voice == view.id) {
                 mPresenter?.startPlayRecord(position)
             } else if (R.id.iv_delete == view.id) {
                     LeaveMessageDialog(requireActivity()) {
-                        mPresenter?.clearVoice(position)
+                        mPresenter?.clearVoice(adapter.data[position] as File)
                     }.show()
             }
         }
@@ -157,6 +148,7 @@ class LeaveMessageFragment : BaseFragment<FragmentLeaveInfoBinding>(), MainContr
     override fun stopPlayAnim() {
         mAdapter.stopPlayAnim()
     }
+
 
 
     /**

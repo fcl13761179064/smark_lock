@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/all_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clickable="true">
+
+    <View
+        android:id="@+id/bg_view"
+        android:layout_width="@dimen/fm_dp_350"
+        android:layout_height="@dimen/fm_dp_200"
+        android:background="@drawable/fm_shape_all_success_radius_15"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/fm_dp_21.5"
+        android:text="请输入退出密码"
+        android:textColor="@color/white"
+        android:textSize="@dimen/fm_text_size_18"
+        app:layout_constraintEnd_toEndOf="@id/bg_view"
+        app:layout_constraintStart_toStartOf="@id/bg_view"
+        app:layout_constraintTop_toTopOf="@id/bg_view" />
+
+
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/tv_also_new_desc"
+        android:layout_width="@dimen/fm_dp_320"
+        android:layout_height="40dp"
+        android:background="@drawable/app_shape_fff4586_22_radius"
+        android:layout_marginTop="@dimen/fm_dp_30"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:hint="密码"
+        android:textColor="@color/white"
+        android:textColorHint="@color/text_gray"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="@dimen/fm_text_size_14"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/cancel_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/fm_dp_15"
+        android:src="@mipmap/ic_close_dialog_pay_success"
+        app:layout_constraintBottom_toTopOf="@id/bg_view"
+        app:layout_constraintEnd_toEndOf="@id/bg_view" />
+
+
+   <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/at_ok"
+        android:layout_width="@dimen/fm_dp_100"
+        android:layout_height="@dimen/fm_dp_33"
+        android:background="@drawable/fm_ff8157ff_ffe056ff_radis_15"
+        android:gravity="center"
+        android:text="好的"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+       android:layout_marginBottom="@dimen/fm_dp_25"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/bg_view"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

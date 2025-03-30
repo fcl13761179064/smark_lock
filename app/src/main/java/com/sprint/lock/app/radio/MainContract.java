@@ -5,8 +5,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.util.List;
 
-import kotlin.Unit;
-
 public interface MainContract {
 
     interface Presenter {
@@ -41,7 +39,7 @@ public interface MainContract {
         void startPlayRecord(int position);
 
 
-        void clearVoice(@NotNull int positon);
+        void clearVoice(@NotNull File positon);
     }
 
     interface View {
@@ -100,7 +98,6 @@ public interface MainContract {
          * 停止播放动画
          */
         void stopPlayAnim();
-
 
     }
 

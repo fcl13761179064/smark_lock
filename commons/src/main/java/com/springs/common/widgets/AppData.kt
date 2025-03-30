@@ -24,4 +24,5 @@ object AppData {
     var  TO_UPDATA_DOOR ="to_updata_door"
     var  SP_WHEATHER_ID ="sp_wheather_id"
     var  SP_WHEATHER_NAME ="sp_wheather_name"
+    var  CIRCLE_SHOW ="circle_show"
  }

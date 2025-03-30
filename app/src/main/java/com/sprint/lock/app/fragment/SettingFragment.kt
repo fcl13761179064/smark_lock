@@ -8,10 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.Utils
 import com.springs.common.base.BaseFragment
 import com.springs.common.databinding.LayoutVolumeBinding
 import com.springs.common.ext.showTopToast
+import com.springs.common.widgets.AppData
 import com.springs.common.widgets.AudioMngHelper
 import com.springs.common.widgets.ProgressLoading
 import com.springs.common.widgets.ViewAnimationTime
@@ -19,6 +21,7 @@ import com.sprint.lock.app.MainActivity
 import com.sprint.lock.app.databinding.SettingFragmentBinding
 import com.sprint.lock.app.dialog.AlsoUpdateDialog
 import com.sprint.lock.app.dialog.XiPingDialog
+import com.sprint.lock.app.dialog.loginOutDialog
 import com.sprint.lock.app.widge.CacheUtils
 import java.io.IOException
 import java.util.Timer
@@ -81,6 +84,12 @@ class SettingFragment : BaseFragment<SettingFragmentBinding>() {
 
         binding.atPlusVolue.ViewAnimationTime({
             oPeraSound(true)
+        }, 100)
+
+        binding.imageMima.ViewAnimationTime({
+            loginOutDialog(requireContext()){
+          (  requireActivity()  as MainActivity).finish()
+            }.show()
         }, 100)
 
     }

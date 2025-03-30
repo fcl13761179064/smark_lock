@@ -6,6 +6,7 @@ import android.util.Log
 import com.blankj.utilcode.util.SPUtils
 import com.springs.common.common.LiveDataBusX
 import com.springs.common.ext.showTopToast
+import com.springs.common.widgets.AppData
 import com.springs.common.widgets.ScheduleTimeUtils.getYMDTime
 import com.sprint.lock.app.radio.MainContract.Presenter
 import java.io.File
@@ -65,14 +66,18 @@ class MainPresenter<T : MainContract.View?>(private val mView: T, private val mC
         })
     }
 
-    override fun clearVoice(position: Int) {
+    override fun clearVoice(path: File) {
         if (mAudioDir.exists()) {
-            val isSuccess = mAudioDir.listFiles()[position].delete()
-            if (isSuccess) {
-                LiveDataBusX.getInstance().with<Any>("delete_success").postValue(position)
-                showTopToast("删除成功")
-            } else {
-                showTopToast("删除失败")
+            mAudioDir.listFiles().forEach {
+                if (path.path == it.absolutePath){
+                    val isSuccess =it.delete()
+                    if (isSuccess) {
+                        LiveDataBusX.getInstance().with<Any>("delete_success").postValue(-1)
+                        showTopToast("删除成功")
+                    } else {
+                        showTopToast("删除失败")
+                    }
+                }
             }
         }
     }
@@ -118,6 +123,8 @@ class MainPresenter<T : MainContract.View?>(private val mView: T, private val mC
                     }
                     val file = File(audioPath.path)
                     if (file.exists()) {
+                        LiveDataBusX.getInstance().with<Boolean>("CIRCLE_SHOW").postValue(true)
+                        SPUtils.getInstance().put(AppData.CIRCLE_SHOW,true)
                         loadAudioCacheData()
 
                     }

@@ -17,6 +17,7 @@ import com.android.library.ISerialDataListener
 import com.android.library.SerialManager
 import com.blankj.utilcode.util.FragmentUtils
 import com.blankj.utilcode.util.PermissionUtils
+import com.blankj.utilcode.util.SPUtils
 import com.kelin.photoselector.ui.AlbumFragment
 import com.room.database.bean.Door
 import com.room.database.db.DoorUtils
@@ -68,7 +69,7 @@ class MainActivity : BaseActivity<ActivityMainHomeBinding>() {
 
     override fun init(savedInstanceState: Bundle?) {
 
-      // 隐藏导航栏
+        // 隐藏导航栏
         val decorView: View = window.decorView
         val uiOptions: Int =
             (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
@@ -193,6 +194,8 @@ class MainActivity : BaseActivity<ActivityMainHomeBinding>() {
             initPhoto()
         }
         binding.buttonThree.setOnClickListener {
+            SPUtils.getInstance().put(AppData.CIRCLE_SHOW,false)
+            binding.redRound.visibility = View.GONE
             restoreChecked()
             binding.buttonThree.isChecked = true
             changeFragment(leavemessagefragment)
@@ -202,9 +205,25 @@ class MainActivity : BaseActivity<ActivityMainHomeBinding>() {
             binding.buttonFour.isChecked = true
             changeFragment(settingFragment)
         }
+
+        LiveDataBusX.getInstance().with<Boolean>("CIRCLE_SHOW").observe(this) {
+            if (it) {
+                binding.redRound.visibility = View.VISIBLE
+            } else {
+                binding.redRound.visibility = View.GONE
+            }
+        }
     }
 
-
+    override fun onResume() {
+        super.onResume()
+      val isShow =  SPUtils.getInstance().getBoolean( AppData.CIRCLE_SHOW,false)
+        if (isShow) {
+            binding.redRound.visibility = View.VISIBLE
+        } else {
+            binding.redRound.visibility = View.GONE
+        }
+    }
 
     fun showFragment(s: String) {
         if (s == "network") {
@@ -292,8 +311,8 @@ class MainActivity : BaseActivity<ActivityMainHomeBinding>() {
     override fun onPause() {
         super.onPause()
         // 检测到Home键按下时，重新启动应用
-        val activityManager = applicationContext
-            .getSystemService(ACTIVITY_SERVICE) as ActivityManager
+        val activityManager =
+            applicationContext.getSystemService(ACTIVITY_SERVICE) as ActivityManager
         activityManager.moveTaskToFront(taskId, 0)
     }
 

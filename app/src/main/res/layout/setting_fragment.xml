@@ -177,7 +177,7 @@
         android:alpha="0.3"
         android:orientation="horizontal"
         android:layout_marginTop="30dp"
-        android:background="@drawable/selector_setting_graident"
+        android:background="@mipmap/bg_receive_award_item"
         app:layout_constraintTop_toBottomOf="@+id/imageView1"
         app:layout_constraintEnd_toEndOf="@+id/imageView1"
         app:layout_constraintStart_toStartOf="@+id/imageView1"
@@ -191,7 +191,7 @@
         app:layout_constraintTop_toTopOf="@+id/sound_img"
         app:layout_constraintStart_toStartOf="@+id/sound_img"
         app:layout_constraintEnd_toEndOf="@+id/sound_img"
-        app:layout_constraintBottom_toBottomOf="@+id/sound_img"
+        app:layout_constraintBottom_toBottomOf="@+id/voice_pluse"
          />
 
 
@@ -199,7 +199,7 @@
         android:id="@+id/at_minus_volue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="25dp"
         app:layout_constraintStart_toStartOf="@+id/view"
         app:layout_constraintTop_toTopOf="@+id/view"
         app:layout_constraintBottom_toBottomOf="@+id/view"
@@ -225,10 +225,11 @@
         android:background="@mipmap/img_dialog_sound_plus_selected"
         app:layout_constraintEnd_toEndOf="@id/view"
         app:layout_constraintTop_toTopOf="@id/view"
-        android:layout_marginRight="@dimen/fm_dp_15"
+        android:layout_marginRight="@dimen/fm_dp_25"
         app:layout_constraintBottom_toBottomOf="@+id/view"/>
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/voice_pluse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/fm_dp_15"
@@ -245,7 +246,7 @@
         android:layout_width="@dimen/fm_dp_120"
         android:layout_height="@dimen/fm_dp_120"
         android:scaleType="centerCrop"
-        android:alpha="0.3"
+        android:alpha="0.6"
         android:src="@mipmap/ic_compose_finish"
         android:background="@drawable/selector_setting_graident"
         app:layout_constraintStart_toStartOf="@+id/imageView2"
@@ -277,4 +278,41 @@
         app:layout_constraintBottom_toTopOf="@+id/screen_time"/>
 
 
+
+    <ImageView
+        android:id="@+id/image_mima"
+        android:layout_width="@dimen/fm_dp_120"
+        android:layout_height="@dimen/fm_dp_120"
+        android:scaleType="centerCrop"
+        android:alpha="0.5"
+        android:src="@mipmap/ic_compose_finish"
+        android:background="@mipmap/z_bg_home_control"
+        app:layout_constraintStart_toStartOf="@+id/imageView3"
+        app:layout_constraintEnd_toEndOf="@+id/imageView3"
+        app:layout_constraintTop_toTopOf="@+id/time"
+        app:layout_constraintBottom_toBottomOf="@+id/time" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ai_mima"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/ic_car_challenge_close"
+        app:layout_constraintLeft_toLeftOf="@+id/imageView3"
+        app:layout_constraintRight_toRightOf="@+id/imageView3"
+        app:layout_constraintTop_toTopOf="@+id/image_mima"
+        app:layout_constraintBottom_toBottomOf="@+id/image_mima"/>
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/at_mima"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="退出应用"
+        android:textColor="@color/white"
+        android:layout_marginBottom="5dp"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toLeftOf="@+id/image_mima"
+        app:layout_constraintRight_toRightOf="@+id/image_mima"
+        app:layout_constraintBottom_toTopOf="@+id/ai_mima"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
