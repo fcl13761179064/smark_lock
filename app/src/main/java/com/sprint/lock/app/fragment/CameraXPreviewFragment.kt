@@ -215,14 +215,24 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
     override fun onResume() {
         super.onResume()
         weatherUpdateJob = lifecycleScope.launch {
-            val location = location()
-            city = nearestCity(location)
-            val locationId = AppData.spUtils.getString(AppData.SP_WHEATHER_ID, city?.locationId)
-            val cityName = AppData.spUtils.getString(AppData.SP_WHEATHER_NAME, city?.locationNameZh)
-            // 1小时后再次请求
-            while (isActive) {
-                wheather(locationId, cityName)
-                delay(UPDATE_INTERVAL)
+            val locationId = AppData.spUtils.getString(AppData.SP_WHEATHER_ID, "")
+            val cityName = AppData.spUtils.getString(AppData.SP_WHEATHER_NAME, "")
+            if (locationId.isNullOrEmpty() && cityName.isNullOrEmpty()){
+                val location = location()
+                city = nearestCity(location)
+                city?.let {
+                    // 1小时后再次请求
+                    while (isActive) {
+                        wheather(it.locationId, it.locationNameZh)
+                        delay(UPDATE_INTERVAL)
+                    }
+                }
+            }else{
+                // 1小时后再次请求
+                while (isActive) {
+                    wheather(locationId, cityName)
+                    delay(UPDATE_INTERVAL)
+                }
             }
         }
     }
@@ -237,9 +247,12 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
             locationId ?: "101020600",
             object : QWeather.OnResultWeatherNowListener, QWeather.OnResultWeatherDailyListener {
                 override fun onError(p0: Throwable?) {
+                    binding.atWeaterProgress.text = "18"
+                    binding.atWeaterText.text = " $cityName"
                 }
 
                 override fun onSuccess(weatherBean: WeatherDailyBean?) {
+
                 }
 
                 override fun onSuccess(weatherBean: WeatherNowBean) {
