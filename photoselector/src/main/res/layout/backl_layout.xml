@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:app="http://schemas.android.com/apk/res-auto"
+android:id="@+id/rl_back"
+android:layout_width="100dp"
+android:layout_height="100dp"
+android:orientation="vertical"
+android:scaleType="centerInside"
+app:layout_constraintLeft_toLeftOf="parent"
+app:layout_constraintTop_toTopOf="parent" >
+
+    <!--顶部操作栏-->
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="centerInside"
+        android:layout_centerInParent="true"
+        android:src="@drawable/top_img_back_white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</RelativeLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <gradient android:angle="180" android:endColor="#ff6836ff" android:startColor="#ffdc3fff" android:type="linear" />
+            <corners android:radius="5dp" />
+        </shape>
+    </item>
+
+    <item android:state_checked="true">
+        <shape android:shape="rectangle">
+            <gradient android:angle="180" android:endColor="#ff6836ff" android:startColor="#ffdc3fff" android:type="linear" />
+            <corners android:radius="5dp" />
+        </shape>
+    </item>
+
+    <item android:drawable="@drawable/shape_bg_personal_net_wired" />
+</selector>
+
+

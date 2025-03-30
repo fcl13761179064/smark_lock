@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_gen"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="15dp"
+    android:gravity="center_vertical">
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_gravity="center"
+        android:text="2024-20-2"
+        android:layout_marginTop="@dimen/dp_10"
+        android:textColor="#ffffffff"
+        android:textSize="13sp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_hhss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="19：44"
+        app:layout_constraintTop_toTopOf="@+id/img_lock"
+        app:layout_constraintBottom_toBottomOf="@+id/img_lock"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.32"
+        android:textColor="#ffffffff"
+        android:textSize="10sp" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_lock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/ic_password"
+        android:layout_marginTop="5dp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_data"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="电量低，请及时更换电池"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/img_lock"
+        app:layout_constraintBottom_toBottomOf="@+id/img_lock"
+        app:layout_constraintHorizontal_bias="0.68"
+        android:textColor="#ffffffff"
+        android:textStyle="bold"
+        android:textSize="12sp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

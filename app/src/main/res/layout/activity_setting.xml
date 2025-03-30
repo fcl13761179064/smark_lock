@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:background="#231654">
+
+
+    <LinearLayout
+        android:id="@+id/ll_net_layout"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!--顶部操作栏-->
+        <ImageView
+            android:id="@+id/iv_left"
+            android:layout_width="50dp"
+            android:layout_height="58dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/top_img_back_white"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_left_title"
+            android:layout_width="wrap_content"
+            android:layout_height="58dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="1"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toRightOf="@+id/iv_left"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="标题" />
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:id="@+id/gujian_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fm_dp_30"
+        android:layout_marginTop="@dimen/fm_dp_20"
+        android:background="@drawable/selector_personal_net_wifi">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="15dp"
+            android:gravity="center"
+            android:text="固件版本"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fm_text_size_12" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/gujian_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="15dp"
+            android:gravity="center"
+            android:text="1.01.44"
+            android:textColor="@color/purple_200"
+            android:textSize="@dimen/fm_text_size_12" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/view_wecome"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/selector_personal_net_wifi"
+        android:gravity="center_vertical"
+        tools:ignore="MissingConstraints">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/fm_dp_15"
+            android:text="固件软件版本"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fm_text_size_12" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/ruanjian_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center"
+            android:layout_marginEnd="15dp"
+            android:gravity="center"
+            android:text="V 1.0"
+            android:textColor="@color/purple_200"
+            android:textSize="@dimen/fm_text_size_12"/>
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/view_update"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/selector_personal_net_wifi"
+        android:gravity="center_vertical"
+        android:visibility="gone"
+        tools:ignore="MissingConstraints">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/fm_dp_15"
+            android:text="设备SN号"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fm_text_size_13" />
+
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/sn_code"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:background="@drawable/bg_shape_system_item"
+            android:text="029923949239432949"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="15dp"
+            android:gravity="center"
+            android:textColor="@color/purple_200"
+            android:textSize="10sp" />
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/clear_cache"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/selector_personal_net_wifi"
+        android:gravity="center_vertical"
+        tools:ignore="MissingConstraints">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/fm_dp_15"
+            android:text="清除缓存"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fm_text_size_12"/>
+
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/cache_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30M"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="15dp"
+            android:gravity="center"
+            android:textColor="@color/purple_200"
+            android:textSize="12sp" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/mac_layout"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/selector_personal_net_wifi"
+        android:gravity="center_vertical"
+        tools:ignore="MissingConstraints">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/fm_dp_15"
+            android:text="IP地址"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fm_text_size_13" />
+
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/ip_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_shape_system_item"
+            android:text="02"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="15dp"
+            android:gravity="center"
+            android:textColor="@color/purple_200"
+            android:textSize="@dimen/fm_text_size_12" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/language"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/selector_personal_net_wifi"
+        android:gravity="center_vertical"
+        tools:ignore="MissingConstraints">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/fm_dp_15"
+            android:text="语言设置"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fm_text_size_12"/>
+
+
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/bg_shape_system_item"
+            android:text="029923949239432949"
+            android:src="@mipmap/scene_codition_back"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="15dp"
+            android:gravity="center"
+            android:textColor="@color/purple_200"
+            />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/wenjian"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/selector_personal_net_wifi"
+        android:gravity="center_vertical"
+        tools:ignore="MissingConstraints">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/fm_dp_15"
+            android:text="文件管理器"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fm_text_size_12"/>
+
+
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/bg_shape_system_item"
+            android:text="029923949239432949"
+            android:src="@mipmap/scene_codition_back"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="15dp"
+            android:gravity="center"
+            android:textColor="@color/purple_200"
+           />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/check_up"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/selector_personal_net_wifi"
+        android:gravity="center_vertical"
+        tools:ignore="MissingConstraints">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/fm_dp_15"
+            android:text="检查更新"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fm_text_size_12"/>
+
+
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/bg_shape_system_item"
+            android:text="029923949239432949"
+            android:src="@mipmap/scene_codition_back"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="15dp"
+            android:gravity="center"
+            android:textColor="@color/purple_200"
+            android:textSize="10sp" />
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/restar_system"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/selector_personal_net_wifi"
+        android:gravity="center_vertical"
+        tools:ignore="MissingConstraints">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/fm_dp_15"
+            android:text="重启App"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fm_text_size_12" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/bg_shape_system_item"
+            android:text="029923949239432949"
+            android:src="@mipmap/scene_codition_back"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="15dp"
+            android:gravity="center"
+            android:textColor="@color/purple_200"
+            android:textSize="10sp" />
+    </FrameLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>
+
+

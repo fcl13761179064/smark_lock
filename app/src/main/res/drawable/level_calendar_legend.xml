@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:maxLevel="0">
+        <shape android:shape="rectangle">
+            <size android:width="8dp" android:height="8dp"/>
+            <solid android:color="@color/common_theme_green"/>
+        </shape>
+    </item>
+    <item android:maxLevel="1">
+        <shape android:shape="rectangle">
+            <size android:width="8dp" android:height="8dp"/>
+            <stroke android:color="@color/common_theme_green" android:width="1dp"/>
+        </shape>
+    </item>
+    <item android:maxLevel="2">
+        <shape android:shape="rectangle">
+            <size android:width="8dp" android:height="8dp"/>
+            <solid android:color="@color/yellow"/>
+        </shape>
+    </item>
+</level-list>

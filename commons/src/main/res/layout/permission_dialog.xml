@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/all_view"
+  >
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="400dp"
+        android:layout_height="160dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:background="@drawable/app_shape_ffffff_20_radius"
+        android:orientation="vertical">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="照片权限被拒绝，跳转到设置页面？"
+            android:textColor="@color/color_7F2B3B"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="48dp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_cancel"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/app_shape_fff45863_20_radius"
+                android:gravity="center"
+                android:text="取消"
+                android:textColor="@color/white" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_confire"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:background="@drawable/app_shape_fff45863_20_radius"
+                android:gravity="center"
+                android:text="确定"
+                android:textColor="@color/white" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</RelativeLayout>

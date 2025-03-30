@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.AppCompatTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tv_soft"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/fm_dp_26"
+    android:layout_marginStart="@dimen/fm_dp_4"
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="@dimen/fm_dp_4"
+    android:background="@drawable/shape_bg_personal_net_wired"
+    android:gravity="center"
+    android:textColor="#FFFFFF"
+    android:textSize="12sp" />

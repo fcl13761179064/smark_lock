@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+   >
+   <LinearLayout
+       android:id="@+id/ll_net_layout"
+       android:layout_width="match_parent"
+       android:layout_height="30dp"
+       android:layout_marginTop="15dp"
+       android:layout_marginEnd="15dp"
+       android:gravity="center_vertical"
+       android:orientation="horizontal"
+       app:layout_constraintTop_toBottomOf="@+id/tv_net_name">
+
+      <!--顶部操作栏-->
+      <ImageView
+          android:id="@+id/iv_left"
+          android:layout_width="50dp"
+          android:layout_height="58dp"
+          android:scaleType="centerInside"
+          android:src="@mipmap/top_img_back_white"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+      <TextView
+          android:id="@+id/tv_left_title"
+          android:layout_width="wrap_content"
+          android:layout_height="58dp"
+          android:ellipsize="end"
+          android:gravity="center"
+          android:lines="1"
+          android:textColor="@color/white"
+          android:textSize="20sp"
+          app:layout_constraintLeft_toRightOf="@+id/iv_left"
+          app:layout_constraintTop_toTopOf="parent"
+          tools:text="标题" />
+   </LinearLayout>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:gravity="center_vertical"
+       android:orientation="horizontal"
+       app:layout_constraintTop_toBottomOf="@+id/tv_net_name">
+
+   <TextView
+       android:id="@+id/tv_net_name"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="无线网络"
+       android:textColor="#ffffff"
+       android:textSize="22sp"
+       android:layout_weight="1"
+       app:layout_constraintLeft_toLeftOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/ll_net_layout" />
+
+
+      <Switch
+          android:id="@+id/mySwitch"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:gravity="right"
+          android:layout_marginRight="35dp"
+          android:thumbTint="@color/white"
+          android:showText="true"
+          android:textOff="关"
+          android:textOn="开"
+          android:checked="true"
+          android:thumb="@drawable/app_shape_switch_thumb"
+          android:track="@drawable/app_shape_switch" />
+
+   </LinearLayout>
+
+   <LinearLayout
+       android:id="@+id/ll_net_work"
+       android:layout_width="match_parent"
+       android:layout_height="60dp"
+       android:layout_marginTop="15dp"
+       android:layout_marginEnd="15dp"
+       android:background="@drawable/selector_personal_net_wifi"
+       android:gravity="center_vertical"
+       android:orientation="horizontal"
+       app:layout_constraintTop_toBottomOf="@+id/tv_net_name">
+
+      <ImageView
+          android:layout_width="35dp"
+          android:layout_height="35dp"
+          android:layout_marginEnd="10dp"
+          android:layout_marginStart="10dp"
+          android:src="@mipmap/ic_setting_wifi"
+           />
+
+
+      <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/tv_name"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginEnd="10dp"
+          android:ellipsize="end"
+          android:maxLines="1"
+          android:text="CDUANG"
+          android:textColor="#ffffffff"
+          android:textSize="18sp" />
+
+      <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/tv_connecting"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="4.5dp"
+          android:layout_marginEnd="4dp"
+          android:text="连接中"
+          android:textColor="#ffffffff"
+          android:textSize="18sp" />
+
+      <ImageView
+          android:id="@+id/img_need_pw"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginEnd="5dp" />
+   </LinearLayout>
+
+   <LinearLayout
+       android:id="@+id/ll_connect_layout"
+       android:layout_width="match_parent"
+       android:layout_height="30dp"
+       android:layout_marginTop="15dp"
+       android:layout_marginEnd="15dp"
+       android:gravity="center_vertical"
+       android:orientation="horizontal"
+       app:layout_constraintTop_toBottomOf="@+id/tv_net_name">
+
+      <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/choose_network"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:ellipsize="end"
+          android:maxLines="1"
+          android:text="选用网络"
+          android:textColor="@color/text_gray"
+          android:textSize="18sp"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+      <TextView
+          android:id="@+id/tv_wifi_state"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="搜索中..."
+          android:textColor="#ffffff"
+          android:layout_marginLeft="7dp"
+          android:textSize="18sp"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+   </LinearLayout>
+
+   <androidx.recyclerview.widget.RecyclerView
+       android:id="@+id/rv_wifi"
+       android:layout_width="match_parent"
+       android:layout_height="0dp"
+       android:layout_weight="1"
+       app:layout_constraintTop_toBottomOf="@+id/ll_connect_layout"
+       android:fadeScrollbars="false"
+       android:scrollbarSize="5dp"
+       android:scrollbars="vertical"
+       tools:itemCount="15"
+       tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+       tools:listitem="@layout/item_wifi"
+       tools:spanCount="5" />
+
+</LinearLayout>

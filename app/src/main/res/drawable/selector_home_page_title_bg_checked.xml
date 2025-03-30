@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <item android:drawable="@mipmap/img_bg_main_common_indicator" android:state_checked="true">
+        <shape>
+            <size android:width="60dp" android:height="53dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="@color/transparent" />
+            <size android:width="60dp" android:height="53dp" />
+        </shape>
+    </item>
+</selector>
+
+

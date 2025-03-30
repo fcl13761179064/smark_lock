@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_main_show"
+    >
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/desc"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginRight="6dp"
+        android:gravity="center_vertical"
+        android:text="智能家居门控系统"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_wifi_img"
+        app:layout_constraintRight_toLeftOf="@+id/tv_wifi_img"
+        app:layout_constraintTop_toTopOf="@+id/tv_wifi_img" />
+
+
+    <ImageView
+        android:id="@+id/tv_wifi_img"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginRight="10dp"
+        android:src="@mipmap/wifi_no_network"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/ll_button"
+        android:layout_width="70dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/desc">
+
+
+        <CheckedTextView
+            android:id="@+id/button_one"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:checked="true"
+            android:paddingTop="20dp"
+            android:drawableTop="@drawable/selector_home_top_cheked"
+            android:drawablePadding="5dp"
+            android:text="首页"
+            android:textAlignment="center"
+            android:textColor="@drawable/selector_checked_home_text_color"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <CheckedTextView
+            android:id="@+id/button_two"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:paddingTop="12dp"
+            android:button="@null"
+            android:drawableTop="@drawable/selector_message_pager_cheked"
+            android:text="消息"
+            android:textAlignment="center"
+            android:textColor="@drawable/selector_checked_home_text_color"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+
+        <CheckedTextView
+            android:id="@+id/button_three"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:paddingTop="15dp"
+            android:button="@null"
+            android:drawableTop="@drawable/selector_leave_info_cheked"
+            android:drawablePadding="5dp"
+            android:text="留言"
+            android:textAlignment="center"
+            android:textColor="@drawable/selector_checked_home_text_color"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+            <View
+                android:id="@+id/red_round"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="@dimen/fm_dp_15"
+                android:layout_alignParentRight="true"
+                android:background="@mipmap/red_round"/>
+        </RelativeLayout>
+
+        <CheckedTextView
+            android:id="@+id/button_four"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:paddingTop="15dp"
+            android:button="@null"
+            android:drawableTop="@drawable/selector_setting_cheked"
+            android:drawablePadding="5dp"
+            android:text="设置"
+            android:textAlignment="center"
+            android:textColor="@drawable/selector_checked_home_text_color"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:id="@+id/fl_check"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/ll_button"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/desc" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

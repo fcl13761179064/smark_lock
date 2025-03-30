@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- switch关闭时滑块样式 白 -->
+    <item android:state_checked="false">
+        <layer-list>
+            <!-- 滑块外层大圆的尺寸 -->
+            <item android:width="26dp" android:height="26dp">
+                <shape android:shape="oval"/>
+            </item>
+            <!-- 滑块内层小圆与外层大圆的边距 -->
+            <item android:left="4dp" android:right="4dp" android:top="4dp" android:bottom="4dp">
+                <shape android:shape="oval">
+                    <solid android:color="#FFF" />
+                    <stroke android:width="1dp" android:color="#b3ffffff" />
+                </shape>
+            </item>
+
+        </layer-list>
+    </item>
+
+    <!--switch打开时滑块样式 白 -->
+    <item android:state_checked="true">
+        <layer-list>
+
+            <item android:width="26dp" android:height="26dp">
+                <shape android:shape="oval"/>
+            </item>
+
+            <item android:left="4dp" android:right="4dp" android:top="4dp" android:bottom="4dp">
+                <shape android:shape="oval">
+                    <solid android:color="#FFF" />
+                    <stroke android:width="1dp" android:color="#b3ffffff" />
+                </shape>
+            </item>
+
+        </layer-list>
+    </item>
+
+</selector>

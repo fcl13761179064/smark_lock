@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/cs_all_view"
+    tools:background="#231654">
+
+    <View
+        android:id="@+id/view_left_back"
+        android:layout_width="@dimen/fm_dp_375"
+        android:layout_height="@dimen/fm_dp_255"
+        android:layout_marginEnd="5dp"
+        android:clickable="true"
+        android:background="@drawable/fm_shape_all_success_radius_15"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/rv_soft"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/fm_dp_20"
+        android:text="请输入无线网密码"
+        android:textColor="#ffffffff"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toTopOf="@id/tv_pw"
+        app:layout_constraintEnd_toEndOf="@id/view_left_back"
+        app:layout_constraintStart_toStartOf="@id/view_left_back" />
+
+    <TextView
+        android:id="@+id/tv_pw"
+        android:layout_width="@dimen/fm_dp_290"
+        android:layout_height="33dp"
+        android:background="@drawable/shape_bg_personal_net_wired"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:paddingStart="@dimen/fm_dp_10"
+        android:paddingEnd="@dimen/fm_dp_10"
+        android:textColor="#ffffffff"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@id/view_left_back"
+        app:layout_constraintEnd_toEndOf="@id/view_left_back"
+        app:layout_constraintStart_toStartOf="@id/view_left_back"
+        app:layout_constraintTop_toTopOf="@id/view_left_back"
+        tools:text="88888888" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="@dimen/fm_dp_100"
+        android:layout_height="@dimen/fm_dp_33"
+        android:layout_marginEnd="35dp"
+        android:layout_marginBottom="@dimen/fm_dp_25"
+        android:background="@drawable/fm_common_cancel_shape"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@id/view_left_back"
+        app:layout_constraintEnd_toStartOf="@id/tv_sure"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@id/view_left_back" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_sure"
+        android:layout_width="@dimen/fm_dp_100"
+        android:layout_height="@dimen/fm_dp_33"
+        android:layout_marginTop="35dp"
+        android:layout_marginBottom="@dimen/fm_dp_25"
+        android:background="@drawable/fm_ff8157ff_ffe056ff_radis_15"
+        android:gravity="center"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@id/view_left_back"
+        app:layout_constraintEnd_toEndOf="@id/view_left_back"
+        app:layout_constraintStart_toEndOf="@id/tv_cancel" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/fm_dp_20"
+        android:layout_marginTop="@dimen/fm_dp_20"
+        android:text="连接WIFI"
+        android:textColor="#ffffffff"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="@id/view_left_back"
+        app:layout_constraintTop_toTopOf="@id/view_left_back" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/fm_dp_20"
+        android:layout_marginEnd="@dimen/fm_dp_20"
+        android:ellipsize="end"
+        android:maxWidth="@dimen/fm_dp_100"
+        android:maxLines="1"
+        android:textColor="#ffffffff"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="@id/view_left_back"
+        app:layout_constraintTop_toTopOf="@id/view_left_back"
+        tools:text="Office2022" />
+
+    <!--键盘布局-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_soft"
+        android:layout_width="@dimen/fm_dp_183"
+        android:layout_height="@dimen/fm_dp_226"
+        android:background="@drawable/fm_shape_all_success_radius_15"
+        android:scrollbars="none"
+        tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/view_left_back"
+        app:layout_constraintTop_toTopOf="@id/view_left_back"
+        tools:spanCount="5"
+        tools:itemCount="30"
+        />
+
+    <RadioGroup
+        android:id="@+id/rg_soft"
+        android:layout_width="@dimen/fm_dp_183"
+        android:layout_height="21dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/view_left_back"
+        app:layout_constraintStart_toStartOf="@id/rv_soft">
+
+        <RadioButton
+            android:id="@+id/rb_letter"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/selector_personal_net_wifi"
+            android:button="@null"
+            android:gravity="center"
+            android:text="字母"
+            android:textColor="#ffffffff"
+            android:textSize="8sp"
+            tools:checked="true" />
+
+        <RadioButton
+            android:id="@+id/rb_number"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="9dp"
+            android:layout_marginEnd="9dp"
+            android:background="@drawable/selector_personal_net_wifi"
+            android:button="@null"
+            android:gravity="center"
+            android:text="数字"
+            android:textColor="#ffffffff"
+            android:textSize="8sp" />
+
+        <RadioButton
+            android:id="@+id/rb_symbol"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/selector_personal_net_wifi"
+            android:button="@null"
+            android:gravity="center"
+            android:text="符号"
+            android:textColor="#ffffffff"
+            android:textSize="8sp" />
+    </RadioGroup>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/cancel_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/fm_dp_20"
+        android:src="@mipmap/ic_close_dialog_pay_success"
+        app:layout_constraintBottom_toTopOf="@id/view_left_back"
+        app:layout_constraintEnd_toEndOf="@id/rv_soft" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
