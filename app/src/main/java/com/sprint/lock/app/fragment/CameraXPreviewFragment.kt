@@ -99,7 +99,7 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
     private var handler = Handler(Looper.getMainLooper())
     private var isTakingPicture = false
 
-    private val UPDATE_INTERVAL =  60 * 60 * 1000L // 1小时（毫秒）)
+    private val UPDATE_INTERVAL = 60 * 60 * 1000L // 1小时（毫秒）)
 
     private fun getOutputDirectory(): File {
         val mediaDir = requireActivity().externalMediaDirs.firstOrNull()?.let {
@@ -217,7 +217,7 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
         weatherUpdateJob = lifecycleScope.launch {
             val locationId = AppData.spUtils.getString(AppData.SP_WHEATHER_ID, "")
             val cityName = AppData.spUtils.getString(AppData.SP_WHEATHER_NAME, "")
-            if (locationId.isNullOrEmpty() && cityName.isNullOrEmpty()){
+            if (locationId.isNullOrEmpty() && cityName.isNullOrEmpty()) {
                 val location = location()
                 city = nearestCity(location)
                 city?.let {
@@ -227,7 +227,7 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
                         delay(UPDATE_INTERVAL)
                     }
                 }
-            }else{
+            } else {
                 // 1小时后再次请求
                 while (isActive) {
                     wheather(locationId, cityName)
@@ -247,7 +247,7 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
             locationId ?: "101020600",
             object : QWeather.OnResultWeatherNowListener, QWeather.OnResultWeatherDailyListener {
                 override fun onError(p0: Throwable?) {
-                    binding.atWeaterProgress.text = "18"
+                    binding.atWeaterProgress.text = "24"
                     binding.atWeaterText.text = " $cityName"
                 }
 
@@ -565,13 +565,13 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
     }
 
     fun startTextUreView(surface: SurfaceTexture) {
-        mCamera = Camera.open(cameraId)
-        if (mCamera == null) {
-            cameraId = 1
+        try {
             mCamera = Camera.open(cameraId)
-        }
-        if (mCamera != null) {
-            try {
+            if (mCamera == null) {
+                cameraId = 1
+                mCamera = Camera.open(cameraId)
+            }
+            if (mCamera != null) {
                 val params: Camera.Parameters = mCamera!!.getParameters() // 获取摄像头参数
                 val rotationAngle = 0 // 设置旋转的角度，例如90度
                 mCamera?.setDisplayOrientation(rotationAngle)
@@ -579,9 +579,9 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
                 mCamera?.parameters = params
                 mCamera?.setPreviewTexture(surface)
                 mCamera?.startPreview()
-            } catch (e: IOException) {
-                Log.d("TAG", e.message!!)
             }
+        } catch (e: IOException) {
+            Log.d("TAG", e.message!!)
         }
     }
 
