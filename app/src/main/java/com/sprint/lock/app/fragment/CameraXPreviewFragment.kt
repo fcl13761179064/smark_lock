@@ -520,13 +520,6 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
         takePic()
     }
 
-
-    override fun onStop() {
-        stopTextTureVIew()
-        super.onStop()
-    }
-
-
     private fun takePic() {
         if (mCamera != null) {
             if (VideoUtils.getInstance().isRecording) {
