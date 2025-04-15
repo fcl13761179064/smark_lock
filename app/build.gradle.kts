@@ -73,6 +73,7 @@ dependencies {
     implementation(project(mapOf("path" to ":commons")))
     implementation(project(mapOf("path" to ":photoselector")))
     implementation(project(mapOf("path" to ":room_database")))
+    implementation(project(mapOf("path" to ":libuvccamera")))
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.haibin:calendarview:3.7.1")
     implementation("com.lovedise:permissiongen:0.0.6")

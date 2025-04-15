@@ -13,6 +13,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.SurfaceTexture
 import android.hardware.Camera
+import android.hardware.usb.UsbDevice
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
@@ -20,11 +21,13 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
@@ -38,10 +41,17 @@ import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.PermissionUtils
 import com.blankj.utilcode.util.ThreadUtils.runOnUiThread
 import com.google.gson.Gson
+import com.herohan.uvcapp.CameraHelper
+import com.herohan.uvcapp.ICameraHelper
+import com.herohan.uvcapp.IImageCapture
+import com.hjq.permissions.XXPermissions
 import com.qweather.sdk.bean.base.Code
 import com.qweather.sdk.bean.weather.WeatherDailyBean
 import com.qweather.sdk.bean.weather.WeatherNowBean
 import com.qweather.sdk.view.QWeather
+import com.serenegiant.usb.Size
+import com.serenegiant.usb.USBMonitor
+import com.serenegiant.utils.UriHelper
 import com.springs.common.base.BaseFragment
 import com.springs.common.common.LiveDataBusX
 import com.springs.common.common.px2dp
@@ -57,6 +67,7 @@ import com.sprint.lock.app.R
 import com.sprint.lock.app.VideoUtils
 import com.sprint.lock.app.WearThersActivity
 import com.sprint.lock.app.databinding.FragmentFirstPagerBinding
+import com.sprint.lock.app.utils.SaveHelper
 import com.sprint.lock.app.widge.CityUtils
 import com.sprint.lock.app.widge.wheather.City
 import kotlinx.coroutines.Job
@@ -98,8 +109,9 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
     private var cameraId: Int = 0
     private var handler = Handler(Looper.getMainLooper())
     private var isTakingPicture = false
-
     private val UPDATE_INTERVAL = 60 * 60 * 1000L // 1小时（毫秒）)
+    private val mCameraHelper by lazy { CameraHelper() }
+
 
     private fun getOutputDirectory(): File {
         val mediaDir = requireActivity().externalMediaDirs.firstOrNull()?.let {
@@ -176,7 +188,170 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
         Log.d(TAG, "outputDirectory=" + outputDirectory.absolutePath)
         cameraExecutor = java.util.concurrent.Executors.newSingleThreadExecutor()
 
+        //initUsbView
+        initCameraHelper()
+        setListeners()
+
     }
+
+    private fun initCameraHelper() {
+        mCameraHelper.setStateCallback(mStateCallback)
+        setCustomImageCaptureConfig()
+        setCustomVideoCaptureConfig()
+    }
+
+    /**
+     * 设置一个statcallback
+     */
+    val mStateCallback = object : ICameraHelper.StateCallback {
+        override fun onAttach(device: UsbDevice?) {
+            device?.let { attachNewDevice(it) }
+        }
+
+        override fun onDeviceOpen(device: UsbDevice?, isFirstOpen: Boolean) {
+            mCameraHelper.openCamera(getSavedPreviewSize())
+        }
+
+        override fun onCameraOpen(device: UsbDevice?) {
+            mCameraHelper.startPreview()
+            // After connecting to the camera, you can get preview size of the camera
+            val size = mCameraHelper.previewSize
+            size?.let { resizePreviewView(it) }
+            if (binding.usbPreview.surfaceTexture != null) {
+                mCameraHelper.addSurface(binding.usbPreview.surfaceTexture, false)
+            }
+            mIsCameraConnected = true
+        }
+
+        override fun onCameraClose(device: UsbDevice?) {
+            TODO("Not yet implemented")
+        }
+
+        override fun onDeviceClose(device: UsbDevice?) {
+            TODO("Not yet implemented")
+        }
+
+        override fun onDetach(device: UsbDevice?) {
+            TODO("Not yet implemented")
+        }
+
+        override fun onCancel(device: UsbDevice?) {
+            TODO("Not yet implemented")
+        }
+
+    }
+
+    private var mUsbDevice: UsbDevice? = null
+    private var mIsCameraConnected = false
+    private val DEFAULT_WIDTH = 640
+    private val DEFAULT_HEIGHT = 480
+    /**
+     * Camera preview width
+     */
+    private var mPreviewWidth = DEFAULT_WIDTH
+    /**
+     * Camera preview height
+     */
+    private var mPreviewHeight = DEFAULT_HEIGHT
+    fun attachNewDevice(device: UsbDevice) {
+        if (mUsbDevice == null) {
+            mUsbDevice = device
+            selectDevice(device)
+        }
+    }
+
+    fun selectDevice(device: UsbDevice) {
+        XXPermissions.with(this).permission(Manifest.permission.CAMERA)
+            .request { permissions: List<String?>?, all: Boolean ->
+                mIsCameraConnected = false
+                if (mCameraHelper != null) {
+                    // 通过UsbDevice对象，尝试获取设备权限
+                    mCameraHelper.selectDevice(device)
+                }
+            }
+    }
+
+    /**
+     * 获取尺寸
+     */
+    private fun getSavedPreviewSize(): Size? {
+        val key = getString(R.string.saved_preview_size) + USBMonitor.getProductKey(mUsbDevice)
+        val sizeStr: String = getPreferences(Context.MODE_PRIVATE).getString(key, null)
+        if (TextUtils.isEmpty(sizeStr)) {
+            return null
+        }
+        val gson = Gson()
+        return gson.fromJson(sizeStr, Size::class.java)
+    }
+
+    private fun resizePreviewView(size: Size) {
+        // Update the preview size
+        mPreviewWidth = size.width
+        mPreviewHeight = size.height
+        // Set the aspect ratio of TextureView to match the aspect ratio of the camera
+        binding.usbPreview.setAspectRatio(mPreviewWidth, mPreviewHeight)
+    }
+    fun takeUsbPicture() {
+        if (mIsRecording) {
+            return
+        }
+        try {
+            val file: File = File(SaveHelper.getSavePhotoPath())
+            val options = IImageCapture.OutputFileOptions.Builder(file).build()
+            mCameraHelper.takePicture(options, object : IImageCapture.OnImageCaptureCallback {
+                override fun onImageSaved(outputFileResults: IImageCapture.OutputFileResults) {
+                    Toast.makeText(
+                        requireActivity(), "save \"" + UriHelper.getPath(
+                            requireActivity(), outputFileResults.savedUri
+                        ) + "\"", Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                override fun onError(imageCaptureError: Int, message: String, cause: Throwable?) {
+                }
+            })
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    /**
+     * 初始化相册
+     */
+    private fun setCustomImageCaptureConfig() {
+        mCameraHelper.imageCaptureConfig =
+            mCameraHelper.imageCaptureConfig.setJpegCompressionQuality(90)
+    }
+
+    /**
+     * 初始化视频
+     */
+    private fun setCustomVideoCaptureConfig() {
+        mCameraHelper.videoCaptureConfig =
+            mCameraHelper.videoCaptureConfig //                        .setAudioCaptureEnable(false)
+                .setBitRate((1024 * 1024 * 25 * 0.25).toInt()).setVideoFrameRate(25)
+                .setIFrameInterval(1)
+    }
+
+    /**
+     * 设置拍照视频点击事件
+     */
+    private fun setListeners() {
+        binding.takePhoto.setOnClickListener { v ->
+            XXPermissions.with(this).permission(Manifest.permission.MANAGE_EXTERNAL_STORAGE)
+                .request { permissions: List<String?>?, all: Boolean -> takeUsbPicture() }
+        }
+        binding.recorderVideo.setOnClickListener { v ->
+            XXPermissions.with(this).permission(Manifest.permission.MANAGE_EXTERNAL_STORAGE)
+                .permission(Manifest.permission.RECORD_AUDIO)
+                .request { permissions: List<String?>?, all: Boolean ->
+                    toggleVideoRecord(
+                        !mIsRecording
+                    )
+                }
+        }
+    }
+
 
     override fun onStart() {
         super.onStart()
@@ -600,4 +775,6 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
         // 防止内存泄漏
         stopWeatherUpdates()
     }
+
 }
+
