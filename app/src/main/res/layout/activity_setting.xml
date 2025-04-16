@@ -216,6 +216,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/selector_personal_net_wifi"
         android:gravity="center_vertical"
+        android:visibility="gone"
         tools:ignore="MissingConstraints">
 
 

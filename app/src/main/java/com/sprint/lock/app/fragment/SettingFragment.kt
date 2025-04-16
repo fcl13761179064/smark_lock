@@ -1,6 +1,5 @@
 package com.sprint.lock.app.fragment
 
-import android.R
 import android.graphics.PixelFormat
 import android.os.Bundle
 import android.view.Gravity
@@ -8,12 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.Utils
 import com.springs.common.base.BaseFragment
 import com.springs.common.databinding.LayoutVolumeBinding
 import com.springs.common.ext.showTopToast
-import com.springs.common.widgets.AppData
 import com.springs.common.widgets.AudioMngHelper
 import com.springs.common.widgets.ProgressLoading
 import com.springs.common.widgets.ViewAnimationTime
