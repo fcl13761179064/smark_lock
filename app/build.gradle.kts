@@ -89,7 +89,6 @@ dependencies {
     implementation(files("libs\\QWeather_Public_Android_V4.17.jar"))
     //Android权限请求框架
     implementation("com.github.respost:OmgPermission:1.0")
-    implementation ("com.herohan:UVCAndroid:1.0.5")
     implementation ("com.github.getActivity:XXPermissions:13.5")
     implementation(project(mapOf("path" to ":seriallibrary")))
     implementation(files("libs\\AMap_Location_V5.3.1_20210331.jar"))
