@@ -102,9 +102,9 @@ internal  class PlayVideoFragment : BasePhotoSelectorFragment<FragmentKelinPhoto
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 )
+                layoutParams.topMargin =50
+                layoutParams.leftMargin =50
                 layoutParams.gravity=layouts.left
-                layoutParams.leftMargin=100
-                layoutParams.topMargin=100
                 layouts.setOnClickListener {
                     finish()
                 }
