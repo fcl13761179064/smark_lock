@@ -198,16 +198,32 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
         if (deviceList.isNotEmpty()) {
             for (device in deviceList.values) {
                 if (isUvcCamera(device)) {
+                    updatePreview(true)
                     //initUsbView
                     initCameraHelper()
                 } else {
+                    updatePreview(false)
                     //普通摄像头
                     startCamera()
                 }
             }
         } else {
+            updatePreview(false)
             //普通摄像头
             startCamera()
+        }
+    }
+
+    /**
+     * 隐藏哪个preview
+     */
+    private fun updatePreview(isHidePriview: Boolean){
+        if (isHidePriview){
+            binding.usbPreview.visibility = View.VISIBLE
+            binding.preview.visibility = View.INVISIBLE
+        }else{
+            binding.usbPreview.visibility = View.GONE
+            binding.preview.visibility = View.VISIBLE
         }
     }
 
