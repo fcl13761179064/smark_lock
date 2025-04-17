@@ -469,7 +469,7 @@ class AlbumFragment : BasePhotoSelectorFragment<FragmentKelinPhotoSelectorAlbumB
     private fun isLandscape(config: Configuration) =
         config.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-    private fun getSpanCount(landscape: Boolean): Int = if (landscape) 8 else 4
+    private fun getSpanCount(landscape: Boolean): Int = if (landscape) 7 else 4
 
     private fun onAlbumSelected(album: Album) {
         listAdapter.setPhotos(album.pictures)
