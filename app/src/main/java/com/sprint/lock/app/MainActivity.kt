@@ -191,7 +191,7 @@ class MainActivity : BaseActivity<ActivityMainHomeBinding>() {
             initPhoto()
         }
         binding.buttonThree.setOnClickListener {
-            SPUtils.getInstance().put(AppData.CIRCLE_SHOW,false)
+            SPUtils.getInstance().put(AppData.CIRCLE_SHOW, false)
             binding.redRound.visibility = View.GONE
             restoreChecked()
             binding.buttonThree.isChecked = true
@@ -214,7 +214,7 @@ class MainActivity : BaseActivity<ActivityMainHomeBinding>() {
 
     override fun onResume() {
         super.onResume()
-      val isShow =  SPUtils.getInstance().getBoolean( AppData.CIRCLE_SHOW,false)
+        val isShow = SPUtils.getInstance().getBoolean(AppData.CIRCLE_SHOW, false)
         if (isShow) {
             binding.redRound.visibility = View.VISIBLE
         } else {

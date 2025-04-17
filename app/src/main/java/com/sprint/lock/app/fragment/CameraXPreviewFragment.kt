@@ -117,7 +117,8 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
     private val DEFAULT_WIDTH = 640
     private val DEFAULT_HEIGHT = 480
     private var mIsRecording = false
-    private val mCameraHelper by lazy { CameraHelper() }
+    private var mCameraHelper: ICameraHelper? = null
+    private var weatherUpdateJob: Job? = null
 
     private fun getOutputDirectory(): File {
         val mediaDir = requireActivity().externalMediaDirs.firstOrNull()?.let {
@@ -214,14 +215,21 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
         }
     }
 
+    private fun clearCameraHelper() {
+        if (mCameraHelper != null) {
+            mCameraHelper?.release()
+            mCameraHelper = null
+        }
+    }
+
     /**
      * 隐藏哪个preview
      */
-    private fun updatePreview(isHidePriview: Boolean){
-        if (isHidePriview){
+    private fun updatePreview(isHidePriview: Boolean) {
+        if (isHidePriview) {
             binding.usbPreview.visibility = View.VISIBLE
             binding.preview.visibility = View.INVISIBLE
-        }else{
+        } else {
             binding.usbPreview.visibility = View.GONE
             binding.preview.visibility = View.VISIBLE
         }
@@ -237,16 +245,16 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
         }
 
         override fun onDeviceOpen(device: UsbDevice?, isFirstOpen: Boolean) {
-            mCameraHelper.openCamera()
+            mCameraHelper?.openCamera()
         }
 
         override fun onCameraOpen(device: UsbDevice?) {
-            mCameraHelper.startPreview()
+            mCameraHelper?.startPreview()
             // After connecting to the camera, you can get preview size of the camera
-            val size = mCameraHelper.previewSize
+            val size = mCameraHelper?.previewSize
             size?.let { resizePreviewView(it) }
             if (binding.usbPreview.surfaceTexture != null) {
-                mCameraHelper.addSurface(binding.usbPreview.surfaceTexture, false)
+                mCameraHelper?.addSurface(binding.usbPreview.surfaceTexture, false)
             }
             mIsCameraConnected = true
         }
@@ -256,7 +264,7 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
                 toggleVideoRecord(false)
             }
             binding.usbPreview.surfaceTexture?.let {
-                mCameraHelper.removeSurface(it)
+                mCameraHelper?.removeSurface(it)
             }
             mIsCameraConnected = false
         }
@@ -285,11 +293,11 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
     fun toggleVideoRecord(isRecording: Boolean) {
         try {
             if (isRecording) {
-                if (mIsCameraConnected && !mCameraHelper.isRecording()) {
+                if (mIsCameraConnected && mCameraHelper?.isRecording == false) {
                     startRecord()
                 }
             } else {
-                if (mIsCameraConnected && mCameraHelper.isRecording()) {
+                if (mIsCameraConnected && mCameraHelper?.isRecording == true) {
                     stopRecord()
                 }
                 stopRecordTimer()
@@ -311,7 +319,7 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
     private fun startRecord() {
         val file = File(SaveHelper.getSaveVideoPath())
         val options = VideoCapture.OutputFileOptions.Builder(file).build()
-        mCameraHelper.startRecording(options, object : VideoCapture.OnVideoCaptureCallback {
+        mCameraHelper?.startRecording(options, object : VideoCapture.OnVideoCaptureCallback {
             override fun onStart() {
                 startRecordTimer()
             }
@@ -331,14 +339,14 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
      * 停止录制
      */
     private fun stopRecord() {
-        mCameraHelper.stopRecording()
+        mCameraHelper?.stopRecording()
     }
 
     /**
      * 开启录制红点
      */
     private fun startRecordTimer() {
-        runOnUiThread(Runnable { binding.currentRecorder.visibility = View.VISIBLE })
+        runOnUiThread { binding.currentRecorder.visibility = View.VISIBLE }
     }
 
 
@@ -368,7 +376,7 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
                 try {
                     mIsCameraConnected = false
                     // 通过UsbDevice对象，尝试获取设备权限
-                    mCameraHelper.selectDevice(device)
+                    mCameraHelper?.selectDevice(device)
                 } catch (ignored: Exception) {
                     ignored.printStackTrace()
                 }
@@ -398,7 +406,7 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
         try {
             val file = File(SaveHelper.getSavePhotoPath())
             val options = IImageCapture.OutputFileOptions.Builder(file).build()
-            mCameraHelper.takePicture(options, object : IImageCapture.OnImageCaptureCallback {
+            mCameraHelper?.takePicture(options, object : IImageCapture.OnImageCaptureCallback {
                 override fun onImageSaved(outputFileResults: IImageCapture.OutputFileResults) {
                     showTopToast("抓拍成功")
                 }
@@ -416,18 +424,18 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
      * 初始化相册
      */
     private fun setCustomImageCaptureConfig() {
-        mCameraHelper.imageCaptureConfig =
-            mCameraHelper.imageCaptureConfig.setJpegCompressionQuality(90)
+        mCameraHelper?.imageCaptureConfig =
+            mCameraHelper?.imageCaptureConfig?.setJpegCompressionQuality(90)
     }
 
     /**
      * 初始化视频
      */
     private fun setCustomVideoCaptureConfig() {
-        mCameraHelper.videoCaptureConfig =
-            mCameraHelper.videoCaptureConfig.setAudioCaptureEnable(false)
-                .setBitRate((1024 * 1024 * 25 * 0.25).toInt()).setVideoFrameRate(25)
-                .setIFrameInterval(1)
+        mCameraHelper?.videoCaptureConfig =
+            mCameraHelper?.videoCaptureConfig?.setAudioCaptureEnable(false)
+                ?.setBitRate((1024 * 1024 * 25 * 0.25).toInt())?.setVideoFrameRate(25)
+                ?.setIFrameInterval(1)
     }
 
 
@@ -438,14 +446,12 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
 
     private fun initPreviewView() {
         binding.usbPreview.setAspectRatio(mPreviewWidth, mPreviewHeight)
-        mCameraHelper.previewConfig.rotation = 180
+        mCameraHelper?.previewConfig?.rotation = 90
         binding.usbPreview.surfaceTextureListener = object : SurfaceTextureListener {
             override fun onSurfaceTextureAvailable(
                 surface: SurfaceTexture, width: Int, height: Int
             ) {
-                if (mCameraHelper != null) {
-                    mCameraHelper.addSurface(surface, false)
-                }
+                mCameraHelper?.addSurface(surface, false)
             }
 
             override fun onSurfaceTextureSizeChanged(
@@ -454,9 +460,7 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
             }
 
             override fun onSurfaceTextureDestroyed(surface: SurfaceTexture): Boolean {
-                if (mCameraHelper != null) {
-                    mCameraHelper.removeSurface(surface)
-                }
+                mCameraHelper?.removeSurface(surface)
                 return false
             }
 
@@ -470,9 +474,18 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
     }
 
     private fun requestUsbVideoPermission() {
-        mCameraHelper.setStateCallback(mStateCallback)
-        setCustomImageCaptureConfig()
-        setCustomVideoCaptureConfig()
+        if (!mIsCameraConnected) {
+            clearCameraHelper()
+        }
+        if (mCameraHelper == null) {
+            lifecycleScope.launch {
+                delay(500)
+                mCameraHelper = CameraHelper()
+                mCameraHelper?.setStateCallback(mStateCallback)
+                setCustomImageCaptureConfig()
+                setCustomVideoCaptureConfig()
+            }
+        }
     }
 
 
@@ -524,7 +537,6 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
         }).request()
     }
 
-    private var weatherUpdateJob: Job? = null
     override fun onResume() {
         super.onResume()
         weatherUpdateJob = lifecycleScope.launch {
@@ -555,13 +567,15 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
         weatherUpdateJob?.cancel()
     }
 
-    fun wheather(locationId: String, cityName: String) {
+    private fun wheather(locationId: String, cityName: String) {
         QWeather.getWeatherNow(requireActivity(),
             locationId ?: "101020600",
             object : QWeather.OnResultWeatherNowListener, QWeather.OnResultWeatherDailyListener {
                 override fun onError(p0: Throwable?) {
+
                     binding.atWeaterProgress.text = "24"
                     binding.atWeaterText.text = " $cityName"
+
                 }
 
                 override fun onSuccess(weatherBean: WeatherDailyBean?) {
@@ -715,8 +729,7 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
         binding.takePhoto.setOnClickListener {
             if (mIsCameraConnected) {
                 //权限申请
-                XXPermissions.with(this)
-                    .permission(Manifest.permission.MANAGE_EXTERNAL_STORAGE)
+                XXPermissions.with(this).permission(Manifest.permission.MANAGE_EXTERNAL_STORAGE)
                     .request { permissions: List<String?>?, all: Boolean -> takeUsbPicture() }
             } else {
                 takePhoto()
@@ -730,9 +743,7 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
             }
 
             if (mIsCameraConnected) {
-                toggleVideoRecord(
-                    !mIsRecording
-                )
+                toggleVideoRecord(!mIsRecording)
             } else {
                 if (!VideoUtils.getInstance().isRecording) {
                     binding.recorderVideo.isSelected = true
@@ -799,21 +810,21 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
     fun playerVideoMin() {
         if (mIsCameraConnected) {
             (binding.usbPreview.layoutParams as ConstraintLayout.LayoutParams).apply {
-                width = 0
-                height = 0
+                width = ViewGroup.LayoutParams.MATCH_PARENT
+                height = ViewGroup.LayoutParams.MATCH_PARENT
                 bottomMargin = px2dp(98f)
                 rightMargin = px2dp(168f)
                 leftMargin = px2dp(4f)
                 topMargin = px2dp(4f)
-                topToTop = R.id.video
-                bottomToBottom = R.id.video
-                leftToLeft = R.id.video
-                rightToRight = R.id.video
+                topToTop = R.id.preview
+                bottomToBottom = R.id.preview
+                leftToLeft = R.id.preview
+                rightToRight = R.id.preview
             }
         } else {
             (binding.preview.layoutParams as ConstraintLayout.LayoutParams).apply {
-                width = 0
-                height = 0
+                width = ViewGroup.LayoutParams.MATCH_PARENT
+                height = ViewGroup.LayoutParams.MATCH_PARENT
                 bottomMargin = px2dp(98f)
                 rightMargin = px2dp(168f)
                 leftMargin = px2dp(4f)
@@ -945,13 +956,13 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
+        clearCameraHelper()
         stopTextTureVIew()
         VideoUtils.getInstance().destroy()
         // 防止内存泄漏
         stopWeatherUpdates()
     }
-
 }
 

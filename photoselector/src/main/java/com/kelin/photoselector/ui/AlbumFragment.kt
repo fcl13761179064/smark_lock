@@ -290,7 +290,8 @@ class AlbumFragment : BasePhotoSelectorFragment<FragmentKelinPhotoSelectorAlbumB
                 }
 
                 mLoaderManager = LoaderManager.getInstance(this@AlbumFragment)
-                mLoaderManager?.initLoader(albumType.type,
+                mLoaderManager?.initLoader(
+                    albumType.type,
                     null,
                     AlbumPictureLoadCallback(applicationContext) { cursor ->
                         albumManager.parsePicture(
@@ -310,11 +311,11 @@ class AlbumFragment : BasePhotoSelectorFragment<FragmentKelinPhotoSelectorAlbumB
                     updateSelectedCount(listAdapter.selectedPictures.size)
                 }
                 //预览选中图片
-                tvKelinPhotoSelectorPreview.setOnClickListener {
-                    PhotoSelector.openPicturePreviewPage(
-                        requireActivity(), listAdapter.selectedPictures
-                    )
-                }
+                /*  tvKelinPhotoSelectorPreview.setOnClickListener {
+                      PhotoSelector.openPicturePreviewPage(
+                          requireActivity(), listAdapter.selectedPictures
+                      )
+                  }*/
                 if (justSelectOne) {
                     btnKelinPhotoSelectorDone.setBackgroundColor(Color.TRANSPARENT)
                 } else {
@@ -400,8 +401,7 @@ class AlbumFragment : BasePhotoSelectorFragment<FragmentKelinPhotoSelectorAlbumB
                 delay(1000)
                 mLoaderManager?.destroyLoader(albumType.type)
                 mLoaderManager = LoaderManager.getInstance(this@AlbumFragment)
-                mLoaderManager?.initLoader(
-                    albumType.type,
+                mLoaderManager?.initLoader(albumType.type,
                     null,
                     AlbumPictureLoadCallback(applicationContext) { cursor ->
                         albumManager.parsePicture(
@@ -442,8 +442,7 @@ class AlbumFragment : BasePhotoSelectorFragment<FragmentKelinPhotoSelectorAlbumB
                     listAdapter.clearSelected()
                     showTopToast("删除成功")
                     vb.btnKelinPhotoSelectorDone.apply {
-                        text =
-                            "${getString(R.string.kelin_photo_selector_selected)}(0)"
+                        text = "${getString(R.string.kelin_photo_selector_selected)}(0)"
                         isEnabled = false
                     }
                 } else {  //如果压缩没有完成
@@ -482,19 +481,18 @@ class AlbumFragment : BasePhotoSelectorFragment<FragmentKelinPhotoSelectorAlbumB
     }
 
     @SuppressLint("SetTextI18n")
-    private fun updateSelectedCount(selectedCount: Int=0) {
+    private fun updateSelectedCount(selectedCount: Int = 0) {
         val visible = if (selectedCount > 0) {
             View.VISIBLE
         } else {
             View.INVISIBLE
-        }
-        vb.tvKelinPhotoSelectorPreview.apply {
-            visibility = visible
-            if (selectedCount > 0) {
-                text = "${getString(R.string.kelin_photo_selector_preview)}(${selectedCount})"
-            }
-        }
-        vb.tvKelinPhotoSelectorReselect.visibility = visible
+        }/*vb.tvKelinPhotoSelectorPreview.apply {
+             visibility = visible
+             if (selectedCount > 0) {
+                 text = "${getString(R.string.kelin_photo_selector_preview)}(${selectedCount})"
+             }
+         }*/
+        vb.tvKelinPhotoSelectorReselect.visibility =visible
         vb.btnKelinPhotoSelectorDone.apply {
             text =
                 "${getString(if (justSelectOne) R.string.kelin_photo_selector_selected else R.string.kelin_photo_selector_selected)}($selectedCount)"

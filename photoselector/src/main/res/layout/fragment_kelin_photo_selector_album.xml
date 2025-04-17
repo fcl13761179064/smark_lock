@@ -53,17 +53,20 @@
         <TextView
             android:id="@+id/tvKelinPhotoSelectorReselect"
             android:layout_width="wrap_content"
-            android:layout_height="?android:attr/actionBarSize"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="18dp"
+            android:textSize="15sp"
             android:gravity="center"
-            android:paddingStart="8dp"
-            android:paddingTop="6dp"
+            android:paddingRight="8dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:layout_alignBaseline="@+id/rg_menu"
             android:text="@string/kelin_photo_selector_reselect"
             android:textColor="@android:color/white"
-            android:visibility="gone"
             tools:ignore="RelativeOverlap" />
     </RelativeLayout>
 
@@ -100,6 +103,7 @@
             android:id="@+id/message_info"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
              />
 
         <TextView
@@ -134,6 +138,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
+            android:layout_marginTop="5dp"
             app:layout_constraintBottom_toTopOf="@+id/ll_picture"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -149,6 +154,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:paddingTop="12dp"
+                android:visibility="gone"
                 android:paddingBottom="12dp">
 
                 <TextView
@@ -180,6 +186,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/kelin_photo_selector_preview"
+                android:visibility="gone"
                 android:textColor="@android:color/white" />
 
             <RelativeLayout

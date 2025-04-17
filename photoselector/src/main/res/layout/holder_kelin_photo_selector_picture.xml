@@ -20,17 +20,17 @@
 
     <RelativeLayout
         android:id="@+id/rlKelinPhotoSelectorChecker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true">
 
         <TextView
             android:id="@+id/tvKelinPhotoSelectorChecker"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_margin="5dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:textSize="8sp"
+            android:layout_centerInParent="true"
             android:background="@drawable/selector_kelin_photo_selector_checker_bg"
             android:gravity="center"
             android:textColor="@android:color/white"

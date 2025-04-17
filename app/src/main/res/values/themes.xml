@@ -10,7 +10,7 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowAnimationStyle">@style/CustomWindowAnimations</item>
-        // 在theme中添加硬件加速
+        <!--在theme中添加硬件加速-->
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
@@ -36,7 +36,6 @@
         <item name="android:windowLightStatusBar">true</item>
 
     </style>
-
 
     <style name="CustomWindowAnimations" parent="android:Animation">
         <item name="android:activityOpenEnterAnimation">@anim/anim_alpha_in_100</item>

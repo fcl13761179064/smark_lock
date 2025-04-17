@@ -322,8 +322,8 @@
 
     <com.serenegiant.widget.AspectRatioTextureView
         android:id="@+id/usb_preview"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="4dp"
         android:layout_marginRight="@dimen/fm_dp_168"
@@ -354,12 +354,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="5sp"
-        android:layout_marginBottom="2dp"
         android:src="@mipmap/ic_full_logo"
-        android:padding="20dp"
+        android:padding="13dp"
         android:background="@color/translater"
         android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="@+id/preview"
+        app:layout_constraintTop_toTopOf="@+id/ll_animator"
+        app:layout_constraintBottom_toBottomOf="@+id/ll_animator"
         app:layout_constraintRight_toRightOf="@+id/preview" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -388,7 +388,7 @@
         android:background="@drawable/app_shape_sk"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@+id/preview"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/preview"
         app:layout_constraintRight_toRightOf="@+id/preview">
 
 
