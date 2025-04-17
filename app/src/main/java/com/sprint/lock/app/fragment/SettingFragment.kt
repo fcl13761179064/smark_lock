@@ -34,22 +34,22 @@ class SettingFragment : BaseFragment<SettingFragmentBinding>() {
 
     override fun init(savedInstanceState: Bundle?, view: View) {
 
-        binding.time.setOnClickListener {
+        binding.time.ViewAnimationTime ({
            XiPingDialog(requireContext()).show()
-        }
-        binding.imageView1.setOnClickListener {
+        },100)
+        binding.imageView1.ViewAnimationTime ({
             initFragment()
-        }
+        },100)
 
-        binding.imageView2.setOnClickListener {
+        binding.imageView2.ViewAnimationTime ({
             initFragmentSd()
-        }
+        },100)
 
-        binding.imageView3.setOnClickListener {
+        binding.imageView3.ViewAnimationTime( {
             initFragmentSystem()
-        }
+        },100)
 
-        binding.imageView4.setOnClickListener {
+        binding.imageView4.ViewAnimationTime({
             AlsoUpdateDialog(requireActivity(), "恢复出场设置","恢复出厂设置后所有配置讲清除！") {
                 try {
                     loadingDialog.showLoading()
@@ -70,7 +70,7 @@ class SettingFragment : BaseFragment<SettingFragmentBinding>() {
                 }
             }.show()
 
-        }
+        },100)
 
         binding.atMinusVolue.ViewAnimationTime({
             oPeraSound(false)

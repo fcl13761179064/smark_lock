@@ -10,13 +10,11 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.android.library.ISerialDataListener
 import com.android.library.SerialManager
 import com.blankj.utilcode.util.FragmentUtils
-import com.blankj.utilcode.util.PermissionUtils
 import com.blankj.utilcode.util.SPUtils
 import com.kelin.photoselector.ui.AlbumFragment
 import com.room.database.bean.Door
@@ -25,7 +23,6 @@ import com.springs.common.application.BaseApplication
 import com.springs.common.base.BaseActivity
 import com.springs.common.common.LiveDataBusX
 import com.springs.common.common.px2dp
-import com.springs.common.dialog.PermissionDialog
 import com.springs.common.widgets.AppData
 import com.sprint.lock.app.databinding.ActivityMainHomeBinding
 import com.sprint.lock.app.fragment.CameraXPreviewFragment

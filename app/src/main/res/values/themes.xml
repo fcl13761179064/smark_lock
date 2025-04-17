@@ -6,10 +6,12 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
-        <!--背景色-->
-        <item name="android:windowBackground">@color/white</item>
         <item name="android:configChanges">orientation|keyboardHidden|screenSize</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowAnimationStyle">@style/CustomWindowAnimations</item>
+        // 在theme中添加硬件加速
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 
 
@@ -18,10 +20,12 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
-        <item name="android:windowBackground">@mipmap/bg_main_show</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowAnimationStyle">@style/CustomWindowAnimations</item>
+        // 在theme中添加硬件加速
+        <item name="android:windowIsTranslucent">true</item>
 
     </style>
 
@@ -31,6 +35,14 @@
         <!-- 添加以下行 -->
         <item name="android:windowLightStatusBar">true</item>
 
+    </style>
+
+
+    <style name="CustomWindowAnimations" parent="android:Animation">
+        <item name="android:activityOpenEnterAnimation">@anim/anim_alpha_in_100</item>
+        <item name="android:activityOpenExitAnimation">@anim/anim_alpha_out_400</item>
+        <item name="android:activityCloseEnterAnimation">@anim/anim_alpha_in_100</item>
+        <item name="android:activityCloseExitAnimation">@anim/anim_alpha_out_400</item>
     </style>
 
     <!--圆角-->
