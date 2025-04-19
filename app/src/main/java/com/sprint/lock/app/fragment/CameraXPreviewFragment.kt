@@ -368,15 +368,13 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
         }
     }
 
-   private fun selectDevice(device: UsbDevice) {
+    private fun selectDevice(device: UsbDevice) {
         XXPermissions.with(this).permission(Manifest.permission.CAMERA)
             .request { permissions: List<String?>?, all: Boolean ->
                 mIsCameraConnected = false
                 if (mCameraHelper != null) {
                     // 通过UsbDevice对象，尝试获取设备权限
-                    Handler().postDelayed({
-                        mCameraHelper?.selectDevice(device)
-                    },1000)
+                    mCameraHelper?.selectDevice(device)
                 }
             }
     }

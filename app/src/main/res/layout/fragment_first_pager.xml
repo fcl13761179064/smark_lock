@@ -124,10 +124,10 @@
                 android:text="07   06"
                 android:textColor="@color/white"
                 android:textSize="50sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/at_point"
@@ -167,10 +167,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_marginLeft="2dp"
             android:layout_marginTop="@dimen/fm_dp_15"
-            android:layout_marginRight="8dp">
+            android:layout_marginRight="8dp"
+            android:layout_weight="1">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/layout_weather"
@@ -221,9 +221,9 @@
                 android:id="@+id/at_weater_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fm_dp_10"
                 android:text="晴  上海"
                 android:textColor="@color/white"
-                android:layout_marginTop="@dimen/fm_dp_10"
                 android:textSize="20sp"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -238,10 +238,10 @@
             android:id="@+id/cs_message"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="@dimen/fm_dp_15"
             android:layout_marginLeft="2dp"
+            android:layout_marginTop="@dimen/fm_dp_15"
             android:layout_marginRight="8dp"
+            android:layout_weight="1"
             app:layout_constraintBottom_toBottomOf="@+id/imageView3"
             app:layout_constraintTop_toBottomOf="@+id/layout_weather">
 
@@ -329,12 +329,11 @@
         android:layout_marginRight="@dimen/fm_dp_168"
         android:layout_marginBottom="98dp"
         android:clickable="true"
-        android:visibility="invisible"
+        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"  />
-
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/image_min_ui"
@@ -355,19 +354,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="5sp"
-        android:src="@mipmap/ic_full_logo"
-        android:padding="13dp"
         android:background="@color/translater"
+        android:padding="13dp"
         android:scaleType="fitCenter"
-        app:layout_constraintTop_toTopOf="@+id/ll_animator"
+        android:src="@mipmap/ic_full_logo"
         app:layout_constraintBottom_toBottomOf="@+id/ll_animator"
-        app:layout_constraintRight_toRightOf="@+id/preview" />
+        app:layout_constraintRight_toRightOf="@+id/preview"
+        app:layout_constraintTop_toTopOf="@+id/ll_animator" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/current_recorder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/fm_dp_20"
         android:layout_marginTop="20dp"
         android:drawableLeft="@mipmap/ic_new_red_point"
         android:drawablePadding="4dp"
@@ -377,7 +377,6 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:visibility="gone"
-        android:layout_marginLeft="@dimen/fm_dp_20"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

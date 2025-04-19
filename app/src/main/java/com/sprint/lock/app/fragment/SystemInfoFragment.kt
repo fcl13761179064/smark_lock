@@ -11,7 +11,6 @@ import android.widget.Toast
 import com.blankj.utilcode.util.DeviceUtils
 import com.blankj.utilcode.util.NetworkUtils
 import com.springs.common.base.BaseFragment
-import com.springs.common.dialog.PermissionDialog
 import com.springs.common.ext.showTopToast
 import com.sprint.lock.app.MainActivity
 import com.sprint.lock.app.R

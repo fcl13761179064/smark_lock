@@ -1,11 +1,7 @@
 package com.sprint.lock.app
 
 
-import android.app.ActivityManager
-import android.content.Intent
 import android.content.IntentFilter
-import android.hardware.usb.UsbDevice
-import android.hardware.usb.UsbManager
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
@@ -63,6 +59,9 @@ class MainActivity : BaseActivity<ActivityMainHomeBinding>() {
     var serialIsOpen = false
     private var TAG = "MainActivity"
 
+    private val DEFAULT_WIDTH = 1080
+    private val DEFAULT_HEIGHT = 960
+
     override fun getViewBinding(): ActivityMainHomeBinding =
         ActivityMainHomeBinding.inflate(layoutInflater)
 
@@ -75,11 +74,7 @@ class MainActivity : BaseActivity<ActivityMainHomeBinding>() {
         initFragment()
         changeFragment(firstPagerFragment)
         openSerial()
-    }
 
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        firstPagerFragment.camera(intent)
     }
 
     /**
@@ -159,6 +154,8 @@ class MainActivity : BaseActivity<ActivityMainHomeBinding>() {
     fun playerMin() {
         binding.flCheck.layoutParams =
             (binding.flCheck.layoutParams as ConstraintLayout.LayoutParams).apply {
+                width = ViewGroup.LayoutParams.MATCH_PARENT
+                height = ViewGroup.LayoutParams.MATCH_PARENT
                 width = px2dp(0f)
                 height = px2dp(0f)
                 leftMargin = px2dp(70f)
@@ -301,21 +298,11 @@ class MainActivity : BaseActivity<ActivityMainHomeBinding>() {
 
     override fun onDestroy() {
         super.onDestroy()
-        unregisterReceiver(networkChangeReceiver);
+          unregisterReceiver(networkChangeReceiver);
     }
 
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         return true
     }
-
-
-    override fun onPause() {
-        super.onPause()
-        // 检测到Home键按下时，重新启动应用
-        val activityManager =
-            applicationContext.getSystemService(ACTIVITY_SERVICE) as ActivityManager
-        activityManager.moveTaskToFront(taskId, 0)
-    }
-
 }

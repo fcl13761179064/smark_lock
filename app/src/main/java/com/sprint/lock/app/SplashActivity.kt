@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import android.view.View
 import com.blankj.utilcode.util.PermissionUtils
 import com.springs.common.base.BaseActivity
 import com.springs.common.dialog.PermissionDialog
@@ -20,6 +21,13 @@ class SplashActivity : BaseActivity<ActivityEntranceBinding>(){
     override fun getViewBinding(): ActivityEntranceBinding  =ActivityEntranceBinding.inflate(layoutInflater)
 
     override fun init(savedInstanceState: Bundle?) {
+        // 隐藏导航栏
+        // Kotlin/Java 代码（在 Activity 中调用）
+        val decorView = window.decorView
+        val uiOptions = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                or View.SYSTEM_UI_FLAG_FULLSCREEN)
+        decorView.systemUiVisibility = uiOptions
         requestVideoPermission()
     }
 
@@ -81,5 +89,4 @@ class SplashActivity : BaseActivity<ActivityEntranceBinding>(){
         }
 
     }
-
 }
