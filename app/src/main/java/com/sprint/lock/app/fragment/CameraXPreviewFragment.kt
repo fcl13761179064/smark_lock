@@ -113,12 +113,13 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
 
     //usb摄像头
     private var mUsbDevice: UsbDevice? = null
-    private var mIsCameraConnected = false
+    var mIsCameraConnected = false
     private val DEFAULT_WIDTH = 640
     private val DEFAULT_HEIGHT = 480
     private var mIsRecording = false
     private var mCameraHelper: ICameraHelper? = null
     private var weatherUpdateJob: Job? = null
+
 
     private fun getOutputDirectory(): File {
         val mediaDir = requireActivity().externalMediaDirs.firstOrNull()?.let {
@@ -188,8 +189,6 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
         outputDirectory = getOutputDirectory()
         Log.d(TAG, "outputDirectory=" + outputDirectory.absolutePath)
         cameraExecutor = newSingleThreadExecutor()
-        //初始化摄像头
-        initVideoCamera()
     }
 
     private fun initVideoCamera() {
@@ -215,6 +214,7 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
         }
     }
 
+
     private fun clearCameraHelper() {
         if (mCameraHelper != null) {
             mCameraHelper?.release()
@@ -234,7 +234,6 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
             binding.preview.visibility = View.VISIBLE
         }
     }
-
 
     /**
      * 设置一个statcallback
@@ -298,7 +297,10 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
                 }
             } else {
                 if (mIsCameraConnected && mCameraHelper?.isRecording == true) {
+                    showTopToast("录制完成")
                     stopRecord()
+                    scanFile(requireContext(), outputDirectory.absolutePath)
+                    LiveDataBusX.getInstance().with<Boolean>(AppData.TO_SCAN_PHOTO).value = true
                 }
                 stopRecordTimer()
             }
@@ -366,28 +368,17 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
         }
     }
 
-    fun selectDevice(device: UsbDevice) {
-        //权限申请
-        PermissionUtils.permission(
-            Manifest.permission.CAMERA,
-            Manifest.permission.RECORD_AUDIO,
-        ).callback(object : PermissionUtils.SimpleCallback {
-            override fun onGranted() {
-                try {
-                    mIsCameraConnected = false
+   private fun selectDevice(device: UsbDevice) {
+        XXPermissions.with(this).permission(Manifest.permission.CAMERA)
+            .request { permissions: List<String?>?, all: Boolean ->
+                mIsCameraConnected = false
+                if (mCameraHelper != null) {
                     // 通过UsbDevice对象，尝试获取设备权限
-                    mCameraHelper?.selectDevice(device)
-                } catch (ignored: Exception) {
-                    ignored.printStackTrace()
+                    Handler().postDelayed({
+                        mCameraHelper?.selectDevice(device)
+                    },1000)
                 }
             }
-
-            override fun onDenied() {
-                PermissionDialog(requireContext(), "请开启摄像头").show()
-            }
-
-        }).request()
-
     }
 
 
@@ -409,6 +400,8 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
             mCameraHelper?.takePicture(options, object : IImageCapture.OnImageCaptureCallback {
                 override fun onImageSaved(outputFileResults: IImageCapture.OutputFileResults) {
                     showTopToast("抓拍成功")
+                    scanFile(requireContext(), outputDirectory.absolutePath)
+                    LiveDataBusX.getInstance().with<Boolean>(AppData.TO_SCAN_PHOTO).value = true
                 }
 
                 override fun onError(imageCaptureError: Int, message: String, cause: Throwable?) {
@@ -439,14 +432,10 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
     }
 
 
-    override fun onStart() {
-        super.onStart()
-        initPreviewView()
-    }
-
     private fun initPreviewView() {
         binding.usbPreview.setAspectRatio(mPreviewWidth, mPreviewHeight)
         mCameraHelper?.previewConfig?.rotation = 90
+
         binding.usbPreview.surfaceTextureListener = object : SurfaceTextureListener {
             override fun onSurfaceTextureAvailable(
                 surface: SurfaceTexture, width: Int, height: Int
@@ -474,12 +463,11 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
     }
 
     private fun requestUsbVideoPermission() {
-        if (!mIsCameraConnected) {
-            clearCameraHelper()
-        }
-        if (mCameraHelper == null) {
-            lifecycleScope.launch {
-                delay(500)
+        lifecycleScope.launch {
+            if (!mIsCameraConnected) {
+                clearCameraHelper()
+            }
+            if (mCameraHelper == null) {
                 mCameraHelper = CameraHelper()
                 mCameraHelper?.setStateCallback(mStateCallback)
                 setCustomImageCaptureConfig()
@@ -537,6 +525,15 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
         }).request()
     }
 
+    override fun onStart() {
+        super.onStart()
+        //初始化摄像头
+        Handler(Looper.getMainLooper()).postDelayed({
+            initPreviewView()
+            initVideoCamera()
+        }, 1000) // 延迟 2 秒
+    }
+
     override fun onResume() {
         super.onResume()
         weatherUpdateJob = lifecycleScope.launch {
@@ -572,10 +569,10 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
             locationId ?: "101020600",
             object : QWeather.OnResultWeatherNowListener, QWeather.OnResultWeatherDailyListener {
                 override fun onError(p0: Throwable?) {
-
-                    binding.atWeaterProgress.text = "24"
-                    binding.atWeaterText.text = " $cityName"
-
+                    runOnUiThread {
+                        binding.atWeaterProgress.text = "24"
+                        binding.atWeaterText.text = " $cityName"
+                    }
                 }
 
                 override fun onSuccess(weatherBean: WeatherDailyBean?) {
@@ -730,7 +727,7 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
             if (mIsCameraConnected) {
                 //权限申请
                 XXPermissions.with(this).permission(Manifest.permission.MANAGE_EXTERNAL_STORAGE)
-                    .request { permissions: List<String?>?, all: Boolean -> takeUsbPicture() }
+                    .request { permissions: List<String?>, all: Boolean -> takeUsbPicture() }
             } else {
                 takePhoto()
             }
@@ -743,7 +740,13 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
             }
 
             if (mIsCameraConnected) {
-                toggleVideoRecord(!mIsRecording)
+                XXPermissions.with(this).permission(Manifest.permission.MANAGE_EXTERNAL_STORAGE)
+                    .permission(Manifest.permission.RECORD_AUDIO)
+                    .request { permissions: List<String?>?, all: Boolean ->
+                        toggleVideoRecord(
+                            !mIsRecording
+                        )
+                    }
             } else {
                 if (!VideoUtils.getInstance().isRecording) {
                     binding.recorderVideo.isSelected = true
@@ -757,7 +760,7 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
                     // 停止任务
                     if (VideoUtils.getInstance().isRecording) {
                         handler.removeCallbacks(runnable)
-                        showTopToast("停止录屏")
+                        showTopToast("录制完成")
                         VideoUtils.getInstance().stopRecorder()
                         binding.recorderVideo.isSelected = false
                         binding.currentRecorder.visibility = View.GONE
@@ -963,6 +966,15 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
         VideoUtils.getInstance().destroy()
         // 防止内存泄漏
         stopWeatherUpdates()
+    }
+
+    fun camera(intent: Intent) {
+        if (intent.action == UsbManager.ACTION_USB_DEVICE_ATTACHED) {
+            if (!mIsCameraConnected) {
+                mUsbDevice = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE)
+                mUsbDevice?.let { selectDevice(it) }
+            }
+        }
     }
 }
 

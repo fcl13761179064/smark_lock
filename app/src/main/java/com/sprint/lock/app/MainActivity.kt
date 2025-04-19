@@ -1,9 +1,11 @@
 package com.sprint.lock.app
 
 
-import android.Manifest
 import android.app.ActivityManager
+import android.content.Intent
 import android.content.IntentFilter
+import android.hardware.usb.UsbDevice
+import android.hardware.usb.UsbManager
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
@@ -65,7 +67,6 @@ class MainActivity : BaseActivity<ActivityMainHomeBinding>() {
         ActivityMainHomeBinding.inflate(layoutInflater)
 
     override fun init(savedInstanceState: Bundle?) {
-
         // 隐藏导航栏
         val decorView: View = window.decorView
         val uiOptions: Int =
@@ -76,6 +77,10 @@ class MainActivity : BaseActivity<ActivityMainHomeBinding>() {
         openSerial()
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        firstPagerFragment.camera(intent)
+    }
 
     /**
      * 打开串口

@@ -44,7 +44,8 @@ class SplashActivity : BaseActivity<ActivityEntranceBinding>(){
             ).callback(object : PermissionUtils.SimpleCallback {
                 override fun onGranted() {
                     try {
-                        mHandler.sendEmptyMessageDelayed(4,500)
+                        startActivity(MainActivity::class)
+                        finish()
                     } catch (ignored: Exception) {
                         ignored.printStackTrace()
                     }
@@ -65,7 +66,8 @@ class SplashActivity : BaseActivity<ActivityEntranceBinding>(){
             ).callback(object : PermissionUtils.SimpleCallback {
                 override fun onGranted() {
                     try {
-                        mHandler.sendEmptyMessageDelayed(4,500)
+                        startActivity(MainActivity::class)
+                        finish()
                     } catch (ignored: Exception) {
                         ignored.printStackTrace()
                     }
