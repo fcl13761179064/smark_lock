@@ -74,7 +74,7 @@ class MainActivity : BaseActivity<ActivityMainHomeBinding>() {
         initFragment()
         changeFragment(firstPagerFragment)
         openSerial()
-
+        AppUtils.recordFirstLaunchTime(this)
     }
 
     /**

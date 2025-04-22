@@ -52,8 +52,11 @@ class SplashActivity : BaseActivity<ActivityEntranceBinding>(){
             ).callback(object : PermissionUtils.SimpleCallback {
                 override fun onGranted() {
                     try {
-                        startActivity(MainActivity::class)
-                        finish()
+                        // 检查是否过期
+                        if (AppUtils.isExpired(this@SplashActivity)) {
+                            return
+                        }
+                        mHandler.sendEmptyMessageDelayed(4,500)
                     } catch (ignored: Exception) {
                         ignored.printStackTrace()
                     }
@@ -74,8 +77,11 @@ class SplashActivity : BaseActivity<ActivityEntranceBinding>(){
             ).callback(object : PermissionUtils.SimpleCallback {
                 override fun onGranted() {
                     try {
-                        startActivity(MainActivity::class)
-                        finish()
+                        // 检查是否过期
+                        if (AppUtils.isExpired(this@SplashActivity)) {
+                            return
+                        }
+                        mHandler.sendEmptyMessageDelayed(4,500)
                     } catch (ignored: Exception) {
                         ignored.printStackTrace()
                     }

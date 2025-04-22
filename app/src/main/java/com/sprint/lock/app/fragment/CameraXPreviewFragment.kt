@@ -195,18 +195,12 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
         //摄像头选择
         val usbManager = requireContext().getSystemService(Context.USB_SERVICE) as UsbManager
         val deviceList: Map<String?, UsbDevice?> = usbManager.deviceList
+        deviceList.forEach { isUvcCamera(it.value!!) }
+
         if (deviceList.isNotEmpty()) {
-            for (device in deviceList.values) {
-                if (isUvcCamera(device)) {
-                    updatePreview(true)
-                    //initUsbView
-                    initCameraHelper()
-                } else {
-                    updatePreview(false)
-                    //普通摄像头
-                    startCamera()
-                }
-            }
+            updatePreview(true)
+            //initUsbView
+            initCameraHelper()
         } else {
             updatePreview(false)
             //普通摄像头
@@ -478,18 +472,16 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
     /**
      * 是否是uvccamera
      */
-    fun isUvcCamera(usbDevice: UsbDevice?): Boolean {
-        if (usbDevice == null) {
-            return false
-        }
+    fun isUvcCamera(usbDevice: UsbDevice) {
         // UVC 摄像头的 Class 通常是 239 (0xEF), Subclass 是 2 (0x02)
+        val sb = StringBuilder()
         for (i in 0..<usbDevice.interfaceCount) {
             val usbInterface: UsbInterface = usbDevice.getInterface(i)
-            if (usbInterface.interfaceClass == 14 && usbInterface.interfaceSubclass == 1) {
-                return true
-            }
+            sb.append("sss=" + usbInterface.interfaceClass)
+                .append("yyy=" + usbInterface.interfaceSubclass)
         }
-        return false
+        val result = sb.toString() // "Hello World"
+        binding.tvCameId.text = result
     }
 
     /**
