@@ -196,7 +196,6 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
         val usbManager = requireContext().getSystemService(Context.USB_SERVICE) as UsbManager
         val deviceList: Map<String?, UsbDevice?> = usbManager.deviceList
         deviceList.forEach { isUvcCamera(it.value!!) }
-
         if (deviceList.isNotEmpty()) {
             updatePreview(true)
             //initUsbView
