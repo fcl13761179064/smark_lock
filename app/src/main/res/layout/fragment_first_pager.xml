@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:chuck="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/video"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -335,18 +333,21 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_came_id"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_duijiang"
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:gravity="center"
-        android:text="32432423"
-        android:textSize="10sp"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5sp"
+        android:padding="13dp"
+        android:layout_marginEnd="@dimen/fm_dp_20"
+        android:background="@drawable/selector_duijiang"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ll_animator"
+        app:layout_constraintRight_toRightOf="@+id/preview"
+     />
+
 
     <ImageView
         android:id="@+id/image_min_ui"

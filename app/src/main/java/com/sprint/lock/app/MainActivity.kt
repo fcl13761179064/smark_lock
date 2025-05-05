@@ -102,29 +102,33 @@ class MainActivity : BaseActivity<ActivityMainHomeBinding>() {
         GlobalScope.launch(Dispatchers.IO) {
             val ssss = "$data".trimIndent()
             try {
-                val sdf = SimpleDateFormat("yyyy-MM-dd")
-                val date = Date()
-                // 获取当前日期和时间
-                val currentDateTime: String = sdf.format(date)
-                // 获取当前时间
-                sdf.applyPattern("HH:mm:ss")
-                val currentTime = sdf.format(date)
-                if (ssss.contains("AA5500A00004000") || ssss.contains("AA5500A200010000A2")) {
-                    if (date.time - nowTime <= 3000) {
-                        return@launch
-                    }
-                    Log.e("fdafdsafdsafdsa", "$date.time  -$nowTime")
-                    nowTime = date.time
-                    val doorData =
-                        Door(data = currentDateTime, time = currentTime, isType = "门锁已开")
-                    DoorUtils.getInstance(BaseApplication.mApplication).insertAllData(doorData)
-                    runOnUiThread {
-                        LiveDataBusX.getInstance().with<Boolean>(AppData.TO_UPDATA_DOOR).value =
-                            true
-                        return@runOnUiThread
+                //上报门铃
+                if (ssss == "AA5503030300000000"){
+                    firstPagerFragment.showDuijiang()
+                }else {
+                    val sdf = SimpleDateFormat("yyyy-MM-dd")
+                    val date = Date()
+                    // 获取当前日期和时间
+                    val currentDateTime: String = sdf.format(date)
+                    // 获取当前时间
+                    sdf.applyPattern("HH:mm:ss")
+                    val currentTime = sdf.format(date)
+                    if (ssss.contains("AA5500A00004000") || ssss.contains("AA5500A200010000A2")) {
+                        if (date.time - nowTime <= 3000) {
+                            return@launch
+                        }
+                        Log.e("fdafdsafdsafdsa", "$date.time  -$nowTime")
+                        nowTime = date.time
+                        val doorData =
+                            Door(data = currentDateTime, time = currentTime, isType = "门锁已开")
+                        DoorUtils.getInstance(BaseApplication.mApplication).insertAllData(doorData)
+                        runOnUiThread {
+                            LiveDataBusX.getInstance().with<Boolean>(AppData.TO_UPDATA_DOOR).value =
+                                true
+                            return@runOnUiThread
+                        }
                     }
                 }
-
             } catch (e: Exception) {
                 e.printStackTrace()
             }

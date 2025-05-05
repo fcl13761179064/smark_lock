@@ -6,6 +6,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioDeviceInfo;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -198,8 +199,12 @@ public class AudioPlayManager implements SensorEventListener {
                     }
                 });
                 this._mediaPlayer.setDataSource(context, audioUri);
-                this._mediaPlayer.setAudioStreamType(3);
+                this._mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 this._mediaPlayer.prepare();
+                // 设置音频流类型为扬声器
+                _audioManager.setMode(AudioManager.MODE_NORMAL);
+                // 强制使用系统喇叭
+                _audioManager.setSpeakerphoneOn(true);
                 this._mediaPlayer.start();
                 if (this._playListener != null) {
                     this._playListener.onStart(this._playingUri);

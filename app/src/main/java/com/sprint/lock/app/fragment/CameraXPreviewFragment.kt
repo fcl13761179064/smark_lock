@@ -5,6 +5,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
@@ -14,7 +15,6 @@ import android.graphics.BitmapFactory
 import android.graphics.SurfaceTexture
 import android.hardware.Camera
 import android.hardware.usb.UsbDevice
-import android.hardware.usb.UsbInterface
 import android.hardware.usb.UsbManager
 import android.location.Location
 import android.location.LocationManager
@@ -25,8 +25,10 @@ import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.TextureView.SurfaceTextureListener
 import android.view.View
+import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
@@ -159,13 +161,12 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
             windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
             ViewCompat.onApplyWindowInsets(view, windowInsets)
         }
-
         binding.slideToggleView.setSlideToggleListener(object :
             SlideToggleView.SlideToggleListener {
             override fun onBlockPositionChanged(
                 view: SlideToggleView?, left: Int, total: Int, slide: Int
             ) {
-                if (slide.toFloat() / total.toFloat() < 0.3) {
+                if ((slide.toFloat() / total.toFloat()) < 0.3) {
                     scaleAnimatiion(slide.toFloat() / total.toFloat())
                 } else {
                     scaleAnimatiion(0.3f)
@@ -189,13 +190,13 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
         outputDirectory = getOutputDirectory()
         Log.d(TAG, "outputDirectory=" + outputDirectory.absolutePath)
         cameraExecutor = newSingleThreadExecutor()
+        showDuijiang()
     }
 
     private fun initVideoCamera() {
         //摄像头选择
         val usbManager = requireContext().getSystemService(Context.USB_SERVICE) as UsbManager
         val deviceList: Map<String?, UsbDevice?> = usbManager.deviceList
-        deviceList.forEach { isUvcCamera(it.value!!) }
         if (deviceList.isNotEmpty()) {
             updatePreview(true)
             //initUsbView
@@ -469,26 +470,13 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
 
 
     /**
-     * 是否是uvccamera
-     */
-    fun isUvcCamera(usbDevice: UsbDevice) {
-        // UVC 摄像头的 Class 通常是 239 (0xEF), Subclass 是 2 (0x02)
-        val sb = StringBuilder()
-        for (i in 0..<usbDevice.interfaceCount) {
-            val usbInterface: UsbInterface = usbDevice.getInterface(i)
-            sb.append("sss=" + usbInterface.interfaceClass)
-                .append("yyy=" + usbInterface.interfaceSubclass)
-        }
-        val result = sb.toString() // "Hello World"
-        binding.tvCameId.text = result
-    }
-
-    /**
      * 发送值
      */
     fun send() {
         if ((requireActivity() as MainActivity).serialIsOpen) {
+            SerialManager.getInstance().write("0000000000000000")
             SerialManager.getInstance().write("AA5500B0000000AF")
+            LogUtils.d("dddddd", "111111111")
         } else {
             LogUtils.d(TAG, "发送失败")
         }
@@ -522,6 +510,7 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
             initVideoCamera()
         }, 1000) // 延迟 2 秒
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -964,6 +953,38 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
                 mUsbDevice?.let { selectDevice(it) }
             }
         }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    fun showDuijiang() {
+        binding.ivDuijiang.visibility = View.VISIBLE
+        handler.postDelayed(mRunnable, 300000)
+        binding.ivDuijiang.setOnTouchListener(OnTouchListener { v, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+
+                    // 创建音频源
+                    binding.ivDuijiang.isSelected = true
+                    mCameraHelper?.videoCaptureConfig?.audioCaptureEnable = true
+                    LogUtils.d("11111", "11111111")
+                    return@OnTouchListener true
+                }
+
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    handler.postDelayed(mRunnable, 300000)
+                    binding.ivDuijiang.isSelected = false
+                    mCameraHelper?.videoCaptureConfig?.audioCaptureEnable = false
+                    LogUtils.d("11111", "2222222222")
+                    return@OnTouchListener true
+                }
+            }
+            false
+        })
+    }
+
+    private val mRunnable = Runnable {
+        LogUtils.d("11111", "333333333")
+        binding.ivDuijiang.visibility = View.GONE
     }
 }
 
