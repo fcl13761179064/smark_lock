@@ -54,7 +54,9 @@
             android:textColor="@drawable/selector_checked_home_text_color"
             android:textSize="12sp"
             android:textStyle="bold" />
-
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
         <CheckedTextView
             android:id="@+id/button_two"
             android:layout_width="match_parent"
@@ -67,6 +69,16 @@
             android:textColor="@drawable/selector_checked_home_text_color"
             android:textSize="12sp"
             android:textStyle="bold" />
+        <View
+            android:id="@+id/red_info"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginRight="@dimen/fm_dp_15"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:background="@mipmap/red_round"/>
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"

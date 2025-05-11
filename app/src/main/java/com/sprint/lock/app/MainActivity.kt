@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.KeyguardManager
 import android.content.IntentFilter
 import android.net.ConnectivityManager
+import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
 import android.os.PowerManager
@@ -125,9 +126,9 @@ class MainActivity : BaseActivity<ActivityMainHomeBinding>() {
                             return@launch
                         }
                         Log.e("fdafdsafdsafdsa", "$date.time  -$nowTime")
+                        binding.redInfo.visibility=View.VISIBLE
                         nowTime = date.time
-                        val doorData =
-                            Door(data = currentDateTime, time = currentTime, isType = "门锁已开")
+                        val doorData = Door(data = currentDateTime, time = currentTime, isType = "门锁已开")
                         DoorUtils.getInstance(BaseApplication.mApplication).insertAllData(doorData)
                         runOnUiThread {
                             LiveDataBusX.getInstance().with<Boolean>(AppData.TO_UPDATA_DOOR).value =
@@ -216,6 +217,7 @@ class MainActivity : BaseActivity<ActivityMainHomeBinding>() {
             changeFragment(firstPagerFragment)
         }
         binding.buttonTwo.setOnClickListener {
+            binding.redInfo.visibility=View.GONE
             restoreChecked()
             binding.buttonTwo.isChecked = true
             initPhoto()

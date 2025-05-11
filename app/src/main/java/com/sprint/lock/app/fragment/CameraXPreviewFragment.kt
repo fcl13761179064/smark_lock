@@ -572,7 +572,10 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
                             )
                             binding.atWeaterProgress.text = weatherBean.now.temp
                             binding.atWeaterText.text = weatherBean.now.text + " ${cityName}"
-                            city?.locationId = locationId!!
+                            binding.atWeaterThree.text = weatherBean.now.windDir
+                            binding.atWeaterThree.text = weatherBean.now.cloud
+                            binding.atWeaterFive.text = weatherBean.now.windSpeed
+                            city?.locationId = locationId
                             city?.locationNameZh = cityName
                         } else {
                             //在此查看返回数据失败的原因
