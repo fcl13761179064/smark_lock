@@ -49,7 +49,6 @@ class NetWorkFragment : BaseFragment<FragmentNetworkBinding>() {
     }
 
 
-
     override fun initListener() {
         super.initListener()
         binding.mySwitch.isChecked = NetworkUtils.isConnected()
@@ -178,33 +177,38 @@ class NetWorkFragment : BaseFragment<FragmentNetworkBinding>() {
     //转化过滤一下原始数据
     private fun filterScanResult(results: List<ScanResult>?): List<WifiBean> {
         var wifiList = mutableListOf<WifiBean>()
-
-        if (results != null) {
-            val wm =
-                requireContext().applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-            val connectWifi = wm.connectionInfo
-            var wifiBean: WifiBean
-            for (scanResult in results) {
-                if (!TextUtils.isEmpty(scanResult.SSID)) {
-                    var connectType = 0
-                    if (connectWifi != null && connectWifi.bssid.equals(scanResult.BSSID)) connectType =
-                        2
-                    wifiBean = WifiBean(
-                        scanResult.SSID,
-                        scanResult.BSSID,
-                        connectType,
-                        WIFIUtils.getWifiSecurityInt(scanResult.capabilities) != WIFIUtils.SECURITY_TYPE_OPEN,
-                        WIFIUtils.calculateSignalLevel(scanResult.level)
-                    )
-                    wifiList.add(wifiBean)
+        try {
+            if (results != null) {
+                val wm =
+                    requireContext().applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+                val connectWifi = wm.connectionInfo
+                var wifiBean: WifiBean
+                for (scanResult in results) {
+                    if (!TextUtils.isEmpty(scanResult.SSID)) {
+                        var connectType = 0
+                        if (connectWifi != null && connectWifi.bssid != null) {
+                            if (connectWifi.bssid == scanResult.BSSID) {
+                                connectType = 2
+                                wifiBean = WifiBean(
+                                    scanResult.SSID,
+                                    scanResult.BSSID,
+                                    connectType,
+                                    WIFIUtils.getWifiSecurityInt(scanResult.capabilities) != WIFIUtils.SECURITY_TYPE_OPEN,
+                                    WIFIUtils.calculateSignalLevel(scanResult.level)
+                                )
+                                wifiList.add(wifiBean)
+                            }
+                        }
+                    }
                 }
             }
+            wifiList =
+                wifiList.sortedWith(compareByDescending<WifiBean> { it.connectType }.thenByDescending { it.wifiLevel })
+                    .toMutableList()
+            return wifiList
+        } catch (e: Exception) {
+            return wifiList
         }
-        wifiList =
-            wifiList.sortedWith(compareByDescending<WifiBean> { it.connectType }.thenByDescending { it.wifiLevel })
-                .toMutableList()
-
-        return wifiList
     }
 
     override fun onDestroy() {

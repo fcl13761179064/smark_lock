@@ -2,7 +2,8 @@ package com.sprint.lock.app.dialog
 
 import android.content.Context
 import android.os.Bundle
-import com.blankj.utilcode.util.ToastUtils
+import android.os.PowerManager
+import androidx.core.content.ContextCompat.getSystemService
 import com.springs.common.base.BaseMySelfDialog
 import com.springs.common.ext.showTopToast
 import com.sprint.lock.app.databinding.DialogXipingBinding
@@ -28,11 +29,17 @@ class XiPingDialog(context: Context) : BaseMySelfDialog<DialogXipingBinding>(con
              setScreenTime(900000, "当前熄屏时间是15分钟")
          }
          binding.atTitle4.setOnClickListener {
-             setScreenTime(Long.MAX_VALUE, "当前熄屏时间是永久")
+             setScreenTime(Integer.MAX_VALUE, "当前熄屏时间是永久")
+             val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager?
+             val wakeLock = powerManager!!.newWakeLock(
+                 PowerManager.SCREEN_BRIGHT_WAKE_LOCK or PowerManager.ON_AFTER_RELEASE,
+                 "MyApp:KeepScreenOn"
+             )
+             wakeLock.acquire()
          }
     }
 
-  fun setScreenTime(time: Long, s: String) {
+  fun setScreenTime(time: Int, s: String) {
           val screenTimeoutUtil = ScreenTimeoutUtil(context)
           // 检查是否有修改系统设置的权限
           if (screenTimeoutUtil.hasWriteSettingsPermission()) {

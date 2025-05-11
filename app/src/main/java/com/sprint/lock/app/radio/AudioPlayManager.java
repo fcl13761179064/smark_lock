@@ -6,13 +6,17 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioAttributes;
 import android.media.AudioDeviceInfo;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.audiofx.Equalizer;
+import android.media.audiofx.NoiseSuppressor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
 import android.util.Log;
+
 import java.io.IOException;
 
 public class AudioPlayManager implements SensorEventListener {
@@ -77,16 +81,16 @@ public class AudioPlayManager implements SensorEventListener {
                             return;
                         }
 
-                        this._audioManager.setMode(3);
+                        this._audioManager.setMode(0);
                     } else {
                         if (this._audioManager.getMode() == 2) {
                             return;
                         }
 
-                        this._audioManager.setMode(2);
+                        this._audioManager.setMode(0);
                     }
 
-                    this._audioManager.setSpeakerphoneOn(false);
+                    this._audioManager.setSpeakerphoneOn(true);
                     this.replay();
                 }
             } else if ((double) range > 0.0D) {
@@ -177,7 +181,7 @@ public class AudioPlayManager implements SensorEventListener {
                     this._sensorManager.registerListener(this, this._sensor, 3);
                 }
 
-                this.muteAudioFocus(this._audioManager, true);
+               this.muteAudioFocus(this._audioManager, true);
                 this._playListener = playListener;
                 this._playingUri = audioUri;
                 this._mediaPlayer = new MediaPlayer();
@@ -205,6 +209,29 @@ public class AudioPlayManager implements SensorEventListener {
                 _audioManager.setMode(AudioManager.MODE_NORMAL);
                 // 强制使用系统喇叭
                 _audioManager.setSpeakerphoneOn(true);
+                int audioSessionId = _mediaPlayer.getAudioSessionId();
+                if (NoiseSuppressor.isAvailable()) {
+                    NoiseSuppressor noiseSuppressor = NoiseSuppressor.create(audioSessionId);
+                    if (noiseSuppressor != null) {
+                        noiseSuppressor.setEnabled(true); // 启用降噪
+                    }
+                }
+                Equalizer equalizer = new Equalizer(0, audioSessionId);
+                equalizer.setEnabled(true);
+                short numBands = equalizer.getNumberOfBands();
+                for (short i = 0; i < numBands; i++) {
+                    // 降低高频段的增益（示例：假设高频在最高频段）
+                    if (i == numBands - 1) {
+                        equalizer.setBandLevel(i, (short) -2000); // 单位：毫分贝（-2000 = -20dB）
+                    }
+                }
+           // 使用高精度音频格式（需设备支持）
+                AudioAttributes attributes = new AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .setFlags(AudioAttributes.FLAG_LOW_LATENCY)
+                        .build();
+                _mediaPlayer.setAudioAttributes(attributes);
                 this._mediaPlayer.start();
                 if (this._playListener != null) {
                     this._playListener.onStart(this._playingUri);

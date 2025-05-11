@@ -8,7 +8,7 @@ import android.provider.Settings
 import android.provider.Settings.SettingNotFoundException
 
 class ScreenTimeoutUtil(private val context: Context) {
-    var screenTimeout: Long
+    var screenTimeout: Int
         /**
          * 获取当前屏幕超时时间
          *
@@ -18,7 +18,7 @@ class ScreenTimeoutUtil(private val context: Context) {
             Settings.System.getInt(
                 context.contentResolver,
                 Settings.System.SCREEN_OFF_TIMEOUT
-            ).toLong()
+            )
         } catch (e: SettingNotFoundException) {
             e.printStackTrace()
             -1 // 获取失败
@@ -33,7 +33,7 @@ class ScreenTimeoutUtil(private val context: Context) {
                 // 修改系统设置中的屏幕超时时间
                 Settings.System.putInt(
                     context.contentResolver,
-                    Settings.System.SCREEN_OFF_TIMEOUT, timeoutMillis.toInt()
+                    Settings.System.SCREEN_OFF_TIMEOUT, timeoutMillis
                 )
             } catch (e: Exception) {
                 e.printStackTrace()

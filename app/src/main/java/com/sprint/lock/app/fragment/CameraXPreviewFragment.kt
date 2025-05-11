@@ -18,6 +18,10 @@ import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
 import android.location.Location
 import android.location.LocationManager
+import android.media.AudioManager
+import android.media.AudioRecord
+import android.media.AudioTrack
+import android.media.MediaRecorder
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -190,7 +194,6 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
         outputDirectory = getOutputDirectory()
         Log.d(TAG, "outputDirectory=" + outputDirectory.absolutePath)
         cameraExecutor = newSingleThreadExecutor()
-        showDuijiang()
     }
 
     private fun initVideoCamera() {
@@ -418,7 +421,7 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
      */
     private fun setCustomVideoCaptureConfig() {
         mCameraHelper?.videoCaptureConfig =
-            mCameraHelper?.videoCaptureConfig?.setAudioCaptureEnable(false)
+            mCameraHelper?.videoCaptureConfig?.setAudioCaptureEnable(true)
                 ?.setBitRate((1024 * 1024 * 25 * 0.25).toInt())?.setVideoFrameRate(25)
                 ?.setIFrameInterval(1)
     }
@@ -967,6 +970,16 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
                     binding.ivDuijiang.isSelected = true
                     mCameraHelper?.videoCaptureConfig?.audioCaptureEnable = true
                     LogUtils.d("11111", "11111111")
+                    val audioRecord = AudioRecord(MediaRecorder.AudioSource.MIC, 20, 3, 3, 2)
+                    val audioTrack = AudioTrack(
+                        AudioManager.STREAM_VOICE_CALL,
+                        100, 3, 3, 2,
+                        AudioTrack.MODE_STREAM
+                    ) // 创建播放对象
+
+                    audioTrack.play() // 开始播放音频流，准备接收数据流。audioRecord开始录音后，将录音数据写入audioTrack的缓冲区。
+
+
                     return@OnTouchListener true
                 }
 

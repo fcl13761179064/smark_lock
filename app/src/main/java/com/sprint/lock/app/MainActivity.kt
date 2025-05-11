@@ -1,9 +1,13 @@
 package com.sprint.lock.app
 
 
+import android.annotation.SuppressLint
+import android.app.KeyguardManager
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.os.Handler
+import android.os.PowerManager
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
@@ -13,6 +17,7 @@ import androidx.fragment.app.Fragment
 import com.android.library.ISerialDataListener
 import com.android.library.SerialManager
 import com.blankj.utilcode.util.FragmentUtils
+import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.SPUtils
 import com.kelin.photoselector.ui.AlbumFragment
 import com.room.database.bean.Door
@@ -21,6 +26,7 @@ import com.springs.common.application.BaseApplication
 import com.springs.common.base.BaseActivity
 import com.springs.common.common.LiveDataBusX
 import com.springs.common.common.px2dp
+import com.springs.common.ext.Logutils
 import com.springs.common.widgets.AppData
 import com.sprint.lock.app.databinding.ActivityMainHomeBinding
 import com.sprint.lock.app.fragment.CameraXPreviewFragment
@@ -70,7 +76,7 @@ class MainActivity : BaseActivity<ActivityMainHomeBinding>() {
         val decorView: View = window.decorView
         val uiOptions: Int =
             (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
-        decorView.setSystemUiVisibility(uiOptions)
+        decorView.systemUiVisibility = uiOptions
         initFragment()
         changeFragment(firstPagerFragment)
         openSerial()
@@ -101,11 +107,12 @@ class MainActivity : BaseActivity<ActivityMainHomeBinding>() {
     private val mListener = ISerialDataListener { data ->
         GlobalScope.launch(Dispatchers.IO) {
             val ssss = "$data".trimIndent()
+            setScreenTime()
             try {
                 //上报门铃
-                if (ssss == "AA5503030300000000"){
-                    firstPagerFragment.showDuijiang()
-                }else {
+                if (ssss == "AA5503030300000000") {
+
+                } else {
                     val sdf = SimpleDateFormat("yyyy-MM-dd")
                     val date = Date()
                     // 获取当前日期和时间
@@ -135,6 +142,23 @@ class MainActivity : BaseActivity<ActivityMainHomeBinding>() {
         }
 
     }
+
+    @SuppressLint("MissingPermission")
+    private fun setScreenTime() {
+        LogUtils.d("11111", "111111111")
+        // 唤醒屏幕（需 WAKE_LOCK 权限）
+        val powerManager = getSystemService(POWER_SERVICE) as PowerManager
+        val wakeLock = powerManager.newWakeLock(
+            PowerManager.FULL_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP, "MyApp:WakeLockTag"
+        )
+        wakeLock.acquire(10 * 60 * 1000L) // 保持10分钟
+        wakeLock.release()
+        // 解锁屏幕（需设备管理员权限）
+        val keyguardManager = getSystemService(KEYGUARD_SERVICE) as KeyguardManager
+        val keyguardLock = keyguardManager.newKeyguardLock("MyApp:KeyguardLock")
+        keyguardLock.disableKeyguard()
+    }
+
 
     //开启大屏
     fun playerFull() {
@@ -302,7 +326,7 @@ class MainActivity : BaseActivity<ActivityMainHomeBinding>() {
 
     override fun onDestroy() {
         super.onDestroy()
-          unregisterReceiver(networkChangeReceiver);
+        unregisterReceiver(networkChangeReceiver);
     }
 
 
