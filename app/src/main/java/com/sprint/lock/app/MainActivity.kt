@@ -5,9 +5,7 @@ import android.annotation.SuppressLint
 import android.app.KeyguardManager
 import android.content.IntentFilter
 import android.net.ConnectivityManager
-import android.opengl.Visibility
 import android.os.Bundle
-import android.os.Handler
 import android.os.PowerManager
 import android.util.Log
 import android.view.KeyEvent
@@ -27,7 +25,6 @@ import com.springs.common.application.BaseApplication
 import com.springs.common.base.BaseActivity
 import com.springs.common.common.LiveDataBusX
 import com.springs.common.common.px2dp
-import com.springs.common.ext.Logutils
 import com.springs.common.widgets.AppData
 import com.sprint.lock.app.databinding.ActivityMainHomeBinding
 import com.sprint.lock.app.fragment.CameraXPreviewFragment
@@ -127,6 +124,7 @@ class MainActivity : BaseActivity<ActivityMainHomeBinding>() {
                         }
                         Log.e("fdafdsafdsafdsa", "$date.time  -$nowTime")
                         binding.redInfo.visibility=View.VISIBLE
+                        firstPagerFragment.showInfoRecord(true)
                         nowTime = date.time
                         val doorData = Door(data = currentDateTime, time = currentTime, isType = "门锁已开")
                         DoorUtils.getInstance(BaseApplication.mApplication).insertAllData(doorData)
@@ -218,6 +216,7 @@ class MainActivity : BaseActivity<ActivityMainHomeBinding>() {
         }
         binding.buttonTwo.setOnClickListener {
             binding.redInfo.visibility=View.GONE
+            firstPagerFragment.showInfoRecord(false)
             restoreChecked()
             binding.buttonTwo.isChecked = true
             initPhoto()

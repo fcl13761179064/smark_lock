@@ -12,6 +12,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.SurfaceTexture
 import android.hardware.Camera
 import android.hardware.usb.UsbDevice
@@ -19,9 +20,7 @@ import android.hardware.usb.UsbManager
 import android.location.Location
 import android.location.LocationManager
 import android.media.AudioManager
-import android.media.AudioRecord
 import android.media.AudioTrack
-import android.media.MediaRecorder
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -571,10 +570,9 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
                                 )
                             )
                             binding.atWeaterProgress.text = weatherBean.now.temp
-                            binding.atWeaterText.text = weatherBean.now.text + " ${cityName}"
-                            binding.atWeaterThree.text = weatherBean.now.windDir
-                            binding.atWeaterThree.text = weatherBean.now.cloud
-                            binding.atWeaterFive.text = weatherBean.now.windSpeed
+                            binding.atWeaterText.text = " $cityName"
+                            binding.atWeaterYin.text = weatherBean.now.text
+                            binding.atWeaterFive.text = weatherBean.now.windDir
                             city?.locationId = locationId
                             city?.locationNameZh = cityName
                         } else {
@@ -973,7 +971,6 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
                     binding.ivDuijiang.isSelected = true
                     mCameraHelper?.videoCaptureConfig?.audioCaptureEnable = true
                     LogUtils.d("11111", "11111111")
-                    val audioRecord = AudioRecord(MediaRecorder.AudioSource.MIC, 20, 3, 3, 2)
                     val audioTrack = AudioTrack(
                         AudioManager.STREAM_VOICE_CALL,
                         100, 3, 3, 2,
@@ -996,6 +993,17 @@ class CameraXPreviewFragment : BaseFragment<FragmentFirstPagerBinding>() {
             }
             false
         })
+    }
+
+    fun showInfoRecord(b: Boolean) {
+        if (b) {
+            binding.noMessage.text = "当前有新消息"
+            binding.noMessage.setTextColor(Color.RED)
+        } else {
+            binding.noMessage.text = "没有新消息"
+            binding.noMessage.setTextColor(requireActivity().getColor(R.color.white))
+        }
+
     }
 
     private val mRunnable = Runnable {

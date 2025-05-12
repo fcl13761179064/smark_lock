@@ -56,6 +56,7 @@
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@+id/imageView1"
         app:layout_constraintTop_toTopOf="@+id/imageView1"
+        app:layout_constraintVertical_bias="1.0"
         app:layout_constraintWidth_default="spread"
         app:shapeAppearanceOverlay="@style/circleStyle10" />
 
@@ -219,38 +220,28 @@
                 android:id="@+id/at_weater_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="晴  上海"
+                android:text="上海"
                 android:textColor="@color/white"
                 android:textSize="15sp"
+                android:layout_marginEnd="10dp"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/at_weater_progress" />
+                app:layout_constraintTop_toTopOf="@+id/image"
+                app:layout_constraintBottom_toBottomOf="@+id/image"/>
 
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/at_weater_three"
+                android:id="@+id/at_weater_yin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="微风"
+                android:text="阴"
                 android:textColor="@color/white"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginLeft="@dimen/fm_dp_15"
-                app:layout_constraintTop_toBottomOf="@+id/at_weater_text" />
+                app:layout_constraintTop_toBottomOf="@+id/at_weater_progress" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/at_weater_four"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:text="多云"
-                app:layout_constraintStart_toStartOf="@+id/at_weater_three"
-                app:layout_constraintEnd_toEndOf="@+id/at_weater_five"
-                app:layout_constraintTop_toTopOf="@+id/at_weater_three"
-               />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/at_weater_five"
@@ -258,11 +249,11 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                android:text="3级风"
+                android:text="南风"
                 android:layout_marginEnd="15dp"
                 android:layout_marginLeft="@dimen/fm_dp_15"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/at_weater_four"
+                app:layout_constraintTop_toTopOf="@+id/at_weater_yin"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -322,9 +313,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="展示没有消息"
+                android:text="展示没新消息"
                 android:textColor="@color/white"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
