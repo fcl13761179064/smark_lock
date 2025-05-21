@@ -23,7 +23,7 @@ public class AppUtils {
         if (firstLaunchTime == 0) return false; // 未记录，默认未过期
 
         long currentTime = System.currentTimeMillis();
-        long threeDaysInMillis = 60 * 24 * 60 * 60 * 1000L; // 60天的毫秒数
+        long threeDaysInMillis = 90 * 24 * 60 * 60 * 1000L; // 90天的毫秒数
         return (currentTime - firstLaunchTime) > threeDaysInMillis;
     }
 }
